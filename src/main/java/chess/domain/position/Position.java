@@ -21,7 +21,7 @@ public class Position {
     private final RowPosition rowPosition;
     private final ColumnPosition columnPosition;
 
-    public Position(RowPosition rowPosition, ColumnPosition columnPosition) {
+    public Position(RowPosition rowPosition, ColumnPosition columnPosition) {  // 접근 제어자 check!
         this.rowPosition = rowPosition;
         this.columnPosition = columnPosition;
     }
@@ -33,7 +33,7 @@ public class Position {
     }
 
     private static String toKey(RowPosition rowPosition, ColumnPosition colPosition) {
-        return String.valueOf(rowPosition) + colPosition;
+        return String.valueOf(rowPosition) + colPosition;   // POOL로 만들어 캐싱 이점을 누리려 한 것 치고는 찾을 때마다 Key를 생성해야 하네요
     }
 
     public boolean isStraightWith(Position target) {
@@ -52,7 +52,7 @@ public class Position {
         return (int) Math.pow(rowInterval, 2) + (int) Math.pow(colInterval, 2);
     }
 
-    public boolean rowIs(RowPosition rowPosition) {
+    public boolean rowIs(RowPosition rowPosition) {  // 전부 is가 앞에 있는데 이 친구는 왜 뒤에 있나요? 콜리만의 기준이 있을까요?
         return this.rowPosition.equals(rowPosition);
     }
 
@@ -62,7 +62,7 @@ public class Position {
 
         Position nextPosition = findPositionDirectionTo(direction);
 
-        while (!target.equals(nextPosition)) {
+        while (!target.equals(nextPosition)) {  // (흘려 듣기) while문을 안 쓰게 만들 수 있을까요?
             path.add(nextPosition);
             nextPosition = nextPosition.findPositionDirectionTo(direction);
         }

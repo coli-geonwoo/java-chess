@@ -6,7 +6,7 @@ import chess.domain.position.RowPosition;
 import java.util.List;
 
 public class MoveCommand {
-    private static final int RANK_BASE_NUMBER = RowPosition.MAX_NUMBER + 1;
+    private static final int RANK_BASE_NUMBER = RowPosition.MAX_NUMBER + 1;  // (아마도) 상위 객체가 하위 객체에 의존하고 있지 않나요?
     private static final int FILE_BASE_NUMBER = 'a';
     private static final String COMMAND_DELIMITER = " ";
     private static final int START_INDEX = 1;

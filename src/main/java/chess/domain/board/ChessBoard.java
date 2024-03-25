@@ -57,7 +57,7 @@ public class ChessBoard {
 
     private boolean piecesIsOtherTeam(Position start, Position destination) {
         Piece startPiece = findPieceByPosition(start);
-        Piece desinationPiece = findPieceByPosition(destination);
+        Piece desinationPiece = findPieceByPosition(destination);  // typo ? destination : desination
         return startPiece.isOtherTeam(desinationPiece);
     }
 }

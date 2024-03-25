@@ -24,5 +24,6 @@ public class Bishop extends Piece {
         } catch (IllegalArgumentException e) {
             return false;
         }
+        // .judge()에서 예외가 발생하는 걸로 보이는데, 정말 예외였나요? Effective Java item.69: 예외는 진짜 예외 상황에만 사용하라
     }
 }

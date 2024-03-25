@@ -39,6 +39,7 @@ public class ChessGameController {
 
 
     private void executeMoveCommand(MoveCommand moveCommand, ChessGame game) {
+        //moveCommand가 직접 일하면 Position을 꺼내오지 않아도 될 것 같아요!
         Position startPosition = moveCommand.getStart();
         Position destinationPosition = moveCommand.getDestination();
 

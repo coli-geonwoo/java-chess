@@ -15,7 +15,7 @@ public class ChessGame {
     }
 
     public static ChessGame newGame() {
-        ChessBoard board = ChessBoardCreator.normalGameCreator().create();
+        ChessBoard board = ChessBoardCreator.normalGameCreator().create(); // 객체 지향 생활 체조 4.한 줄에 점을 하나만 찍는다
         return new ChessGame(board, Team.WHITE);
     }
 

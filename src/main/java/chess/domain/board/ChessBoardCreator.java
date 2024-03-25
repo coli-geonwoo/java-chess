@@ -18,7 +18,7 @@ public class ChessBoardCreator {
     }
 
     public static ChessBoardCreator normalGameCreator() {
-        return new ChessBoardCreator(NormalPieceSetting.whitePiecesArrangeMent()
+        return new ChessBoardCreator(NormalPieceSetting.whitePiecesArrangeMent() // typo ? Arrangement : ArrangeMent
                 , NormalPieceSetting.blackPiecesArrangeMent());
     }
 

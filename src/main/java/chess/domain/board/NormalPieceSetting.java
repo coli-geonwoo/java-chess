@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.stream.IntStream;
 
 public class NormalPieceSetting {
+    //이해는 되지만 숫자로 Position을 표기해 준 게 한눈에 들어온다고 말하긴 힘들 것 같아요 ㅠ
     private static final Map<Piece, List<Position>> INITIAL_BLACK_PIECES_ARRANGEMENT = new HashMap<>() {
         {
             List<Position> rookPositions = List.of(Position.of(0, 0), Position.of(0, 7));
