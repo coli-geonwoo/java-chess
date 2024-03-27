@@ -3,7 +3,7 @@ package chess.controller.command;
 import chess.domain.game.ChessGame;
 import chess.view.OutputView;
 
-public class StartCommand implements Command {
+public final class StartCommand implements Command {
 
     private StartCommand() {
     }

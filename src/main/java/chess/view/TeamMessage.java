@@ -7,7 +7,7 @@ import java.util.stream.Stream;
 public enum TeamMessage {
     BLACK_TEAM_MESSAGE(Team.BLACK, "블랙"),
     WHITE_TEAM_MESSAGE(Team.WHITE, "화이트"),
-    NONE_TEAM_MESSAGE(Team.NONE, "무승부"),
+    NONE_TEAM_MESSAGE(Team.NONE, ""),
     ;
 
     private final Team team;

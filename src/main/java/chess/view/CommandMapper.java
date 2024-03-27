@@ -1,9 +1,6 @@
 package chess.view;
 
-import chess.controller.command.Command;
-import chess.controller.command.EndCommand;
-import chess.controller.command.MoveCommand;
-import chess.controller.command.StartCommand;
+import chess.controller.command.*;
 
 import java.util.Arrays;
 import java.util.function.Function;
@@ -11,6 +8,7 @@ import java.util.function.Function;
 public enum CommandMapper {
     START("start", StartCommand::of),
     END("end", EndCommand::of),
+    STATUS("status", StatusCommand::of),
     MOVE("move", MoveCommand::of);
 
     private static final String ARGUMENT_SEPARATOR = " ";

@@ -18,7 +18,7 @@ public class OutputView {
     private static final String LINE_SEPARATOR = System.lineSeparator();
     private static final String POSITION_EMPTY_MESSAGE = ".";
 
-    private static final String SCORE_MESSAGE_FORMAT = "%s : %d";
+    private static final String SCORE_MESSAGE_FORMAT = "%s : %.1f";
     private static final String RESULT_MESSAGE_FORMAT = "경기 결과 : %s %s";
     private static final String DRAW_MESSAGE = "무승부";
     private static final String WIN_MESSAGE = "승";
@@ -75,6 +75,6 @@ public class OutputView {
     }
 
     private String resolveScoreMessage(ChessGame game, Team team) {
-        return String.format(SCORE_MESSAGE_FORMAT, TeamMessage.messageOf(team), game.teamScore(team));
+        return String.format(SCORE_MESSAGE_FORMAT, TeamMessage.messageOf(team), game.teamScore(team).getScore());
     }
 }

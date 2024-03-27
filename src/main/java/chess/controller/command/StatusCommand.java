@@ -3,16 +3,19 @@ package chess.controller.command;
 import chess.domain.game.ChessGame;
 import chess.view.OutputView;
 
-public final class EndCommand implements Command {
-    private EndCommand() {
+public final class StatusCommand implements Command {
+
+    private StatusCommand() {
     }
 
-    public static EndCommand of(String input) {
-        return new EndCommand();
+    public static StatusCommand of(String input) {
+        return new StatusCommand();
     }
+
 
     @Override
     public void execute(ChessGame game, OutputView outputView) {
+        outputView.printStatusMessage(game);
     }
 
     @Override
@@ -22,6 +25,6 @@ public final class EndCommand implements Command {
 
     @Override
     public boolean isEnd() {
-        return true;
+        return false;
     }
 }

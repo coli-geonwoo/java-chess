@@ -7,7 +7,7 @@ import chess.view.OutputView;
 
 import java.util.List;
 
-public class MoveCommand implements Command {
+public final class MoveCommand implements Command {
     private static final int RANK_BASE_NUMBER = RowPosition.MAX_NUMBER + 1;
     private static final int FILE_BASE_NUMBER = 'a';
     private static final String COMMAND_DELIMITER = " ";
