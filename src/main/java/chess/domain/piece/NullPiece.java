@@ -4,7 +4,7 @@ import chess.domain.board.Score;
 import chess.domain.position.Position;
 
 public final class NullPiece extends Piece {
-    private static final NullPiece instance = new NullPiece(Team.EMPTY);
+    private static final NullPiece instance = new NullPiece(Team.NONE);
 
     private NullPiece(Team team) {
         super(team, Score.from(0));

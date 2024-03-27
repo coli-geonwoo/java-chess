@@ -3,7 +3,7 @@ package chess.domain.piece;
 public enum Team {
     WHITE,
     BLACK,
-    EMPTY,
+    NONE,
     ;
 
     public Team opposite() {
@@ -14,6 +14,6 @@ public enum Team {
         if (this == BLACK) {
             return WHITE;
         }
-        return EMPTY;
+        return NONE;
     }
 }
