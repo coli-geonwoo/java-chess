@@ -7,24 +7,23 @@ import static chess.domain.position.Fixture.*;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-class ChessGameTest {
-
+class RunningGameTest {
     /* white turn
-    RNBQKBNR  8 (rank 8)
-    PPPPPPPP  7
-    ........  6
-    ........  5
-    ........  4
-    .....n..  3
-    pppppppp  2
-    rnbqkb.r  1 (rank 1)
+   RNBQKBNR  8 (rank 8)
+   PPPPPPPP  7
+   ........  6
+   ........  5
+   ........  4
+   .....n..  3
+   pppppppp  2
+   rnbqkb.r  1 (rank 1)
 
-    abcdefgh
-     */
+   abcdefgh
+    */
     @DisplayName("턴을 진행하는 팀의 기물을 움직일 수 있다")
     @Test
     void should_CanMovePiece_When_PieceBelongTurnTeam() {
-        ChessGame game = ChessGame.newGame();
+        ChessGame game = RunningGame.newGame();
         assertThatCode(() -> game.playTurn(G1, F3)).doesNotThrowAnyException();
     }
 
@@ -43,7 +42,7 @@ class ChessGameTest {
     @DisplayName("턴이 아닌 팀의 기물을 움직일 수 없다")
     @Test
     void should_ThrowIllegalArgumentException_When_MovePiece_Which_NotBelongTurnTeam() {
-        ChessGame game = ChessGame.newGame();
+        ChessGame game = RunningGame.newGame();
         assertThatThrownBy(() -> game.playTurn(B8, C6))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("현재 턴을 진행하는 팀의 기물이 아닙니다.");

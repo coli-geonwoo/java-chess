@@ -2,6 +2,7 @@ package chess.controller;
 
 import chess.controller.command.Command;
 import chess.domain.game.ChessGame;
+import chess.domain.game.RunningGame;
 import chess.view.CommandMapper;
 import chess.view.InputView;
 import chess.view.OutputView;
@@ -20,7 +21,7 @@ public class ChessGameController {
 
     public void run() {
         Command command;
-        ChessGame game = ChessGame.newGame();
+        ChessGame game = RunningGame.newGame();
         startChessGame(game);
 
         do {
