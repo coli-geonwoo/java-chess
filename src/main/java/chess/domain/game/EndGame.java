@@ -16,9 +16,9 @@ public class EndGame implements ChessGame {
     @Override
     public Team winTeam() {
         if (board.isKingAlive(Team.BLACK)) {
-            return Team.WHITE;
+            return Team.BLACK;
         }
-        return Team.BLACK;
+        return Team.WHITE;
     }
 
     @Override
