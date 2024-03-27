@@ -25,7 +25,7 @@ public class ChessBoardCreator {
         Map<Position, Piece> positionPiece = new HashMap<>();
         positionPiece.putAll(initializePiecesArrangeMent(whitePiecesSetting));
         positionPiece.putAll(initializePiecesArrangeMent(blackPiecesSetting));
-        return new ChessBoard(positionPiece);
+        return ChessBoard.normalBoard(positionPiece);
     }
 
     private Map<Position, Piece> initializePiecesArrangeMent(Map<Piece, List<Position>> arrangeMent) {

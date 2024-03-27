@@ -2,15 +2,22 @@ package chess.domain.board;
 
 import chess.domain.piece.NullPiece;
 import chess.domain.piece.Piece;
+import chess.domain.piece.Team;
 import chess.domain.position.Position;
 
 import java.util.Map;
 
 public class ChessBoard {
     private final Map<Position, Piece> board;
+    private final ScoreCalculator calculator;
 
-    public ChessBoard(Map<Position, Piece> board) {
+    public ChessBoard(Map<Position, Piece> board, ScoreCalculator calculator) {
         this.board = board;
+        this.calculator = calculator;
+    }
+
+    public static ChessBoard normalBoard(Map<Position, Piece> board){
+        return new ChessBoard(board, ScoreCalculator.gameScoreCalculator());
     }
 
     public boolean positionIsEmpty(Position position) {
@@ -30,6 +37,10 @@ public class ChessBoard {
             return;
         }
         throw new IllegalArgumentException("잘못된 움직임 명령입니다.");
+    }
+
+    public Score teamScore(Team team){
+        return calculator.calculateTeamScore(board, team);
     }
 
     private void movePiece(Position start, Position destination) {
