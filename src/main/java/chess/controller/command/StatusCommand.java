@@ -14,9 +14,8 @@ public final class StatusCommand implements Command {
 
 
     @Override
-    public ChessGame execute(ChessGame game, OutputView outputView) {
+    public void execute(ChessGame game, OutputView outputView) {
         outputView.printStatusMessage(game);
-        return game;
     }
 
     @Override

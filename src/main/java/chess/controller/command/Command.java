@@ -5,7 +5,7 @@ import chess.view.OutputView;
 
 public sealed interface Command
         permits StartCommand,MoveCommand, StatusCommand, EndCommand{
-    ChessGame execute(ChessGame game, OutputView outputView);
+    void execute(ChessGame game, OutputView outputView);
 
     boolean isStart();
 

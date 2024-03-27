@@ -38,10 +38,9 @@ public final class MoveCommand implements Command {
     }
 
     @Override
-    public ChessGame execute(ChessGame game, OutputView outputView) {
-        game = game.playTurn(start, destination);
+    public void execute(ChessGame game, OutputView outputView) {
+        game.playTurn(start, destination);
         outputView.printChessBoardMessage(game.getBoard());
-        return game;
     }
 
     @Override

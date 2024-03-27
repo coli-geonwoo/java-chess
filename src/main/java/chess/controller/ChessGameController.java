@@ -2,7 +2,6 @@ package chess.controller;
 
 import chess.controller.command.Command;
 import chess.domain.game.ChessGame;
-import chess.domain.game.RunningGame;
 import chess.view.CommandMapper;
 import chess.view.InputView;
 import chess.view.OutputView;
@@ -21,13 +20,13 @@ public class ChessGameController {
 
     public void run() {
         Command command;
-        ChessGame game = RunningGame.newGame();
+        ChessGame game = ChessGame.newGame();
         startChessGame(game);
 
         do {
             command = retryUntilNoError(this::readCommand);
-            game = command.execute(game, outputView);
-        } while (!command.isEnd() && !game.isEnd());
+            command.execute(game, outputView);
+        } while (!command.isEnd() && !game.isEndGame());
 
         outputView.printStatusMessage(game);
     }
