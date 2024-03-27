@@ -52,4 +52,9 @@ public sealed abstract class Pawn extends Piece
                 && start.squaredDistanceWith(destination) == KILL_PASSING_DISTANCE
                 && isOtherTeam(pieceAtDestination);
     }
+
+    @Override
+    public boolean isPawn() {
+        return true;
+    }
 }
