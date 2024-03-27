@@ -25,7 +25,7 @@ public final class NullPiece extends Piece {
     }
 
     @Override
-    public double getScore() {
+    public Score getScore() {
         throw new UnsupportedOperationException("NullPiece 객체입니다");
     }
 }

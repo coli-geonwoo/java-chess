@@ -1,5 +1,6 @@
 package chess.domain.piece;
 
+import chess.domain.board.Score;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -31,12 +32,12 @@ class PieceTest {
         Piece king = new King(Team.BLACK);
 
         assertAll(
-                () -> assertThat(bishop.getScore()).isEqualTo(3),
-                () -> assertThat(rook.getScore()).isEqualTo(5),
-                () -> assertThat(pawn.getScore()).isEqualTo(1),
-                () -> assertThat(queen.getScore()).isEqualTo(9),
-                () -> assertThat(knight.getScore()).isEqualTo(2.5),
-                () -> assertThat(king.getScore()).isEqualTo(0)
+                () -> assertThat(bishop.getScore()).isEqualTo(Score.from(3)),
+                () -> assertThat(rook.getScore()).isEqualTo(Score.from(5)),
+                () -> assertThat(pawn.getScore()).isEqualTo(Score.from(1)),
+                () -> assertThat(queen.getScore()).isEqualTo(Score.from(9)),
+                () -> assertThat(knight.getScore()).isEqualTo(Score.from(2.5)),
+                () -> assertThat(king.getScore()).isEqualTo(Score.from(0))
         );
     }
 

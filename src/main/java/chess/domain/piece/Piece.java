@@ -34,7 +34,15 @@ public abstract class Piece {
         return false;
     }
 
-    public double getScore() {
-        return score.getScore();
+    public Score getScore() {
+        return score;
+    }
+
+    public boolean isPawn() {
+        return false;
+    }
+
+    public boolean isKing() {
+        return false;
     }
 }
