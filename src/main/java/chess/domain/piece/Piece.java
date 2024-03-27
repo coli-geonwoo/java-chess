@@ -1,12 +1,13 @@
 package chess.domain.piece;
 
+import chess.domain.board.Score;
 import chess.domain.position.Position;
 
 public abstract class Piece {
     private final Team team;
-    private final double score;
+    private final Score score;
 
-    public Piece(Team team, double score) {
+    public Piece(Team team, Score score) {
         this.team = team;
         this.score = score;
     }
@@ -21,8 +22,12 @@ public abstract class Piece {
         return this.team != otherPiece.team;
     }
 
+    public boolean isSameTeam(Team team) {
+        return this.team == team;
+    }
+
     public boolean isOtherTeam(Team team) {
-        return this.team != team;
+        return !isSameTeam(team);
     }
 
     public boolean isEmpty() {
@@ -30,6 +35,6 @@ public abstract class Piece {
     }
 
     public double getScore() {
-        return score;
+        return score.getScore();
     }
 }

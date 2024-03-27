@@ -1,5 +1,6 @@
 package chess.domain.piece;
 
+import chess.domain.board.Score;
 import chess.domain.position.Direction;
 import chess.domain.position.DirectionJudge;
 import chess.domain.position.Position;
@@ -10,7 +11,7 @@ import static chess.domain.position.Direction.*;
 
 public class Rook extends Piece {
     private static final List<Direction> PASSING = List.of(UP, DOWN, RIGHT, LEFT);
-    private static final double score = 5;
+    private static final Score score = Score.from(5);
 
     public Rook(Team team) {
         super(team, score);

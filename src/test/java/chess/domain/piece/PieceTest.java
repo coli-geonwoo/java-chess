@@ -4,6 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 class PieceTest {
@@ -28,7 +29,6 @@ class PieceTest {
         Piece queen = new Queen(Team.BLACK);
         Piece knight = new Knight(Team.BLACK);
         Piece king = new King(Team.BLACK);
-        Piece nullPiece = NullPiece.getInstance();
 
         assertAll(
                 () -> assertThat(bishop.getScore()).isEqualTo(3),
@@ -36,8 +36,16 @@ class PieceTest {
                 () -> assertThat(pawn.getScore()).isEqualTo(1),
                 () -> assertThat(queen.getScore()).isEqualTo(9),
                 () -> assertThat(knight.getScore()).isEqualTo(2.5),
-                () -> assertThat(king.getScore()).isEqualTo(0),
-                () -> assertThat(nullPiece.getScore()).isEqualTo(0)
+                () -> assertThat(king.getScore()).isEqualTo(0)
         );
+    }
+
+    @DisplayName("NullPiece는 점수 반환 요청을 받으면 오류를 발생시킨다.")
+    @Test
+    void should_ThrowUnsupportedOperationException_When_GetScoreFromNullPiece() {
+        Piece nullPiece = NullPiece.getInstance();
+
+        assertThatThrownBy(() -> nullPiece.getScore())
+                .isInstanceOf(UnsupportedOperationException.class);
     }
 }

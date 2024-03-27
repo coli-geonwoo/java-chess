@@ -1,5 +1,6 @@
 package chess.domain.piece;
 
+import chess.domain.board.Score;
 import chess.domain.position.Position;
 
 public sealed abstract class Pawn extends Piece
@@ -7,7 +8,7 @@ public sealed abstract class Pawn extends Piece
     protected static final int FORWARDING_SQUARED_DISTANCE = 1;
     protected static final int KILL_PASSING_DISTANCE = 2;
     protected static final int FIRST_FORWARDING_SQUARED_DISTANCE = 4;
-    private static final double score = 1;
+    private static final Score score = Score.from(1);
 
 
     public Pawn(Team team) {
