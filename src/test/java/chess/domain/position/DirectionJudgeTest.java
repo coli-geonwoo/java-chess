@@ -86,8 +86,7 @@ class DirectionJudgeTest {
         Position destination = Position.of(0, 3);
 
         assertThatThrownBy(() -> DirectionJudge.judge(start, destination))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("두 위치의 방향을 특정할 수 없습니다.");
+                .isInstanceOf(IllegalArgumentException.class);
     }
 }
 

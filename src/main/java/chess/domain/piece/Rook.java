@@ -10,9 +10,10 @@ import static chess.domain.position.Direction.*;
 
 public class Rook extends Piece {
     private static final List<Direction> PASSING = List.of(UP, DOWN, RIGHT, LEFT);
+    private static final double score = 5;
 
     public Rook(Team team) {
-        super(team);
+        super(team, score);
     }
 
     @Override

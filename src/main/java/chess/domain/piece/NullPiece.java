@@ -4,9 +4,10 @@ import chess.domain.position.Position;
 
 public final class NullPiece extends Piece {
     private static final NullPiece instance = new NullPiece(Team.EMPTY);
+    private static final double score = 0;
 
     private NullPiece(Team team) {
-        super(team);
+        super(team, score);
     }
 
     public static NullPiece getInstance() {

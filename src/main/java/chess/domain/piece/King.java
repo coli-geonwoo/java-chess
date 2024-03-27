@@ -5,9 +5,10 @@ import chess.domain.position.Position;
 public class King extends Piece {
     private static final int STRAIGHT_DISTANCE = 1;
     private static final int DIAGONAL_DISTANCE = 2;
+    private static final double score = 0;
 
     public King(Team team) {
-        super(team);
+        super(team, score);
     }
 
     @Override

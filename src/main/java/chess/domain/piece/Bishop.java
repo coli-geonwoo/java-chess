@@ -10,9 +10,10 @@ import static chess.domain.position.Direction.*;
 
 public class Bishop extends Piece {
     private static final List<Direction> PASSING = List.of(UP_LEFT, UP_RIGHT, DOWN_LEFT, DOWN_RIGHT);
+    private static final double score = 3;
 
     public Bishop(Team team) {
-        super(team);
+        super(team, score);
     }
 
     @Override

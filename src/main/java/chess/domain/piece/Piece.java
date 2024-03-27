@@ -4,9 +4,11 @@ import chess.domain.position.Position;
 
 public abstract class Piece {
     private final Team team;
+    private final double score;
 
-    public Piece(Team team) {
+    public Piece(Team team, double score) {
         this.team = team;
+        this.score = score;
     }
 
     public abstract boolean canMove(Position start, Position destination, Piece pieceAtDestination);
@@ -25,5 +27,9 @@ public abstract class Piece {
 
     public boolean isEmpty() {
         return false;
+    }
+
+    public double getScore() {
+        return score;
     }
 }
