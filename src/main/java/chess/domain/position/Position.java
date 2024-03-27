@@ -3,20 +3,18 @@ package chess.domain.position;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import static chess.domain.position.ColumnPosition.MAX_NUMBER;
-import static chess.domain.position.ColumnPosition.MIN_NUMBER;
 import static java.util.stream.Collectors.toMap;
 
 public class Position {
-    // TODO static import를 사용한 이유?
-    private static final Map<String, Position> POOL = IntStream.rangeClosed(MIN_NUMBER, MAX_NUMBER)
-            .mapToObj(RowPosition::new)
-            .flatMap(rowPosition -> IntStream.rangeClosed(MIN_NUMBER, MAX_NUMBER)
-                    .mapToObj(ColumnPosition::new)
-                    .map(columnPosition -> new Position(rowPosition, columnPosition)))
+    private static final Map<String, Position> POOL = RowPosition.POOL
+            .values()
+            .stream()
+            .flatMap(row -> ColumnPosition.POOL
+                    .values()
+                    .stream()
+                    .map(column -> new Position(row, column)))
             .collect(toMap(position -> Position.toKey(position.rowPosition, position.columnPosition), position -> position));
 
     private final RowPosition rowPosition;
@@ -28,8 +26,8 @@ public class Position {
     }
 
     public static Position of(int rowPosition, int colPosition) {
-        RowPosition row = new RowPosition(rowPosition);
-        ColumnPosition col = new ColumnPosition(colPosition);
+        RowPosition row = RowPosition.from(rowPosition);
+        ColumnPosition col = ColumnPosition.from(colPosition);
         return POOL.get(toKey(row, col));
     }
 
@@ -114,10 +112,14 @@ public class Position {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "[Position : "
                 + rowPosition.toString()
                 + columnPosition.toString()
-                +"]";
+                + "]";
+    }
+
+    public ColumnPosition getColumnPosition() {
+        return columnPosition;
     }
 }

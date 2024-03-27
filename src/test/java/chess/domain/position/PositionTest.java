@@ -143,7 +143,7 @@ class PositionTest {
         Position testPosition1 = D3;
         Position testPosition2 = A3;
         Position testPosition3 = F3;
-        RowPosition rowPosition = new RowPosition(5);
+        RowPosition rowPosition = RowPosition.from(5);
 
         assertAll(
                 () -> assertThat(testPosition1.isSameRowWith(rowPosition)),

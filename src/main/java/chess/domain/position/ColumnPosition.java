@@ -1,16 +1,28 @@
 package chess.domain.position;
 
+import java.util.LinkedHashMap;
 import java.util.Objects;
+import java.util.stream.IntStream;
+
+import static java.util.stream.Collectors.toMap;
 
 public class ColumnPosition {
     public static final int MIN_NUMBER = 0;
     public static final int MAX_NUMBER = 7;
 
+    public static final LinkedHashMap<Integer, ColumnPosition> POOL = IntStream.rangeClosed(MIN_NUMBER, MAX_NUMBER)
+            .boxed()
+            .collect(toMap(i -> i, ColumnPosition::new, (v1,v2)-> v2, LinkedHashMap::new));
+
+
     private final int columnNumber;
 
-    public ColumnPosition(int columnNumber) {
-        validateNumberRange(columnNumber);
+    private ColumnPosition(int columnNumber) {
         this.columnNumber = columnNumber;
+    }
+
+    public static ColumnPosition from(int columnNumber) {
+        return POOL.get(columnNumber);
     }
 
     public int findColumnIntervalWith(int columnInterval) {
@@ -29,11 +41,6 @@ public class ColumnPosition {
         return columnNumber > otherColumnPosition.columnNumber;
     }
 
-    private void validateNumberRange(int columnNumber) {
-        if (MIN_NUMBER > columnNumber || columnNumber > MAX_NUMBER) {
-            throw new IllegalStateException("체스판의 열 번호는 " + columnNumber + "가 될 수 없습니다.");
-        }
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -53,7 +60,7 @@ public class ColumnPosition {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "COLUMN : " + columnNumber;
     }
 }
