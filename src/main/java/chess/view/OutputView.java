@@ -1,7 +1,9 @@
 package chess.view;
 
 import chess.domain.board.ChessBoard;
+import chess.domain.game.ChessGame;
 import chess.domain.piece.Piece;
+import chess.domain.piece.Team;
 import chess.domain.position.ColumnPosition;
 import chess.domain.position.Position;
 import chess.domain.position.RowPosition;
@@ -16,12 +18,23 @@ public class OutputView {
     private static final String LINE_SEPARATOR = System.lineSeparator();
     private static final String POSITION_EMPTY_MESSAGE = ".";
 
+    private static final String SCORE_MESSAGE_FORMAT = "%s : %d";
+    private static final String RESULT_MESSAGE_FORMAT = "경기 결과 : %s %s";
+    private static final String DRAW_MESSAGE = "무승부";
+    private static final String WIN_MESSAGE = "승";
+
     public void printStartMessage() {
         System.out.println(resolveStartMessage());
     }
 
     public void printChessBoardMessage(ChessBoard chessBoard) {
         System.out.println(resolveChessBoardMessage(chessBoard));
+    }
+
+    public void printStatusMessage(ChessGame game) {
+        System.out.println(resolveScoreMessage(game, Team.WHITE));
+        System.out.println(resolveScoreMessage(game, Team.BLACK));
+        System.out.println(resolveWinTeamMessage(game.winTeam()));
     }
 
     private String resolveStartMessage() {
@@ -52,5 +65,16 @@ public class OutputView {
         }
         Piece foundPiece = chessBoard.findPieceByPosition(position);
         return PieceMessage.messageOf(foundPiece);
+    }
+
+    private String resolveWinTeamMessage(Team winTeam) {
+        if (winTeam == Team.NONE) {
+            return String.format(RESULT_MESSAGE_FORMAT, TeamMessage.messageOf(Team.NONE), DRAW_MESSAGE);
+        }
+        return String.format(RESULT_MESSAGE_FORMAT, TeamMessage.messageOf(winTeam), WIN_MESSAGE);
+    }
+
+    private String resolveScoreMessage(ChessGame game, Team team) {
+        return String.format(SCORE_MESSAGE_FORMAT, TeamMessage.messageOf(team), game.teamScore(team));
     }
 }
