@@ -17,4 +17,9 @@ public class King extends Piece {
         int squaredDistance = start.squaredDistanceWith(destination);
         return squaredDistance == STRAIGHT_DISTANCE || squaredDistance == DIAGONAL_DISTANCE;
     }
+
+    @Override
+    public boolean isKing() {
+        return true;
+    }
 }

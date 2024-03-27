@@ -43,6 +43,12 @@ public class ChessBoard {
         return calculator.calculateTeamScore(board, team);
     }
 
+    public boolean isKingAlive(Team team){
+        return board.values()
+                .stream()
+                .anyMatch(piece-> piece.isKing() && piece.isSameTeam(team));
+    }
+
     private void movePiece(Position start, Position destination) {
         Piece piece = findPieceByPosition(start);
         board.remove(start);
