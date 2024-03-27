@@ -35,4 +35,9 @@ public class EndGame implements ChessGame {
     public ChessBoard getBoard() {
         return board;
     }
+
+    @Override
+    public boolean isEnd() {
+        return true;
+    }
 }

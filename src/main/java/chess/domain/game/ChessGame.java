@@ -11,7 +11,6 @@ public interface ChessGame {
 
     Score teamScore(Team team);
     Team winTeam();
-
     ChessBoard getBoard();
-
+    boolean isEnd();
 }

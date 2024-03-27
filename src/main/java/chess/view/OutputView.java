@@ -32,8 +32,10 @@ public class OutputView {
     }
 
     public void printStatusMessage(ChessGame game) {
-        System.out.println(resolveScoreMessage(game, Team.WHITE));
-        System.out.println(resolveScoreMessage(game, Team.BLACK));
+        if(!game.isEnd()){
+            System.out.println(resolveScoreMessage(game, Team.WHITE));
+            System.out.println(resolveScoreMessage(game, Team.BLACK));
+        }
         System.out.println(resolveWinTeamMessage(game.winTeam()));
     }
 

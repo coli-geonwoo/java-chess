@@ -51,6 +51,11 @@ public class RunningGame implements ChessGame {
         return Team.NONE;
     }
 
+    @Override
+    public boolean isEnd() {
+        return false;
+    }
+
     private boolean isEndGame() {
         return !board.isKingAlive(turn.opposite());
     }
