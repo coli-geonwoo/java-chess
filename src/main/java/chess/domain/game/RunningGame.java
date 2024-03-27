@@ -38,6 +38,19 @@ public class RunningGame implements ChessGame {
         return board.teamScore(team);
     }
 
+    @Override
+    public Team winTeam() {
+        Score whiteScore = board.teamScore(Team.WHITE);
+        Score blackScore = board.teamScore(Team.BLACK);
+        if (whiteScore.isHigherThan(blackScore)) {
+            return Team.WHITE;
+        }
+        if (blackScore.isHigherThan(whiteScore)) {
+            return Team.BLACK;
+        }
+        return Team.NONE;
+    }
+
     private boolean isEndGame() {
         return !board.isKingAlive(turn.opposite());
     }

@@ -14,6 +14,14 @@ public class EndGame implements ChessGame {
     }
 
     @Override
+    public Team winTeam() {
+        if (board.isKingAlive(Team.BLACK)) {
+            return Team.WHITE;
+        }
+        return Team.BLACK;
+    }
+
+    @Override
     public ChessGame playTurn(Position start, Position destination) {
         throw new UnsupportedOperationException("이 경기는 이미 끝난 경기입니다.");
     }

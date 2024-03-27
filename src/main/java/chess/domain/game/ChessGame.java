@@ -10,6 +10,7 @@ public interface ChessGame {
     ChessGame playTurn(Position start, Position destination);
 
     Score teamScore(Team team);
+    Team winTeam();
 
     ChessBoard getBoard();
 

@@ -29,6 +29,10 @@ public final class Score {
         return score;
     }
 
+    public boolean isHigherThan(Score otherScore) {
+        return this.score > otherScore.getScore();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
