@@ -26,8 +26,10 @@ public class ChessGameController {
 
         do {
             command = retryUntilNoError(this::readCommand);
-            command.execute(game, outputView);
-        } while (!command.isEnd());
+            game = command.execute(game, outputView);
+        } while (!command.isEnd() && !game.isEnd());
+
+        outputView.printStatusMessage(game);
     }
 
     private void startChessGame(ChessGame game) {

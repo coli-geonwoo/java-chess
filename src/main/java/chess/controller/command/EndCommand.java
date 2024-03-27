@@ -12,7 +12,8 @@ public final class EndCommand implements Command {
     }
 
     @Override
-    public void execute(ChessGame game, OutputView outputView) {
+    public ChessGame execute(ChessGame game, OutputView outputView) {
+        return game;
     }
 
     @Override

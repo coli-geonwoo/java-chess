@@ -13,8 +13,9 @@ public final class StartCommand implements Command {
     }
 
     @Override
-    public void execute(ChessGame game, OutputView outputView) {
+    public ChessGame execute(ChessGame game, OutputView outputView) {
         outputView.printChessBoardMessage(game.getBoard());
+        return game;
     }
 
     @Override
