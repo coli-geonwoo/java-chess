@@ -32,11 +32,7 @@ public class ChessGame {
     }
 
     private void switchTurn() {
-        if (turn == Team.BLACK) {
-            turn = Team.WHITE;
-            return;
-        }
-        turn = Team.BLACK;
+        turn = turn.opposite();
     }
 
     public ChessBoard getBoard() {
