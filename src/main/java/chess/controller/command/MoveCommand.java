@@ -39,7 +39,7 @@ public class MoveCommand implements Command {
 
     @Override
     public void execute(ChessGame game, OutputView outputView) {
-        game.playTurn(start, destination);
+        game = game.playTurn(start, destination);
         outputView.printChessBoardMessage(game.getBoard());
     }
 
