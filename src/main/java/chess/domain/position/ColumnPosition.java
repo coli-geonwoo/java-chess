@@ -63,4 +63,8 @@ public class ColumnPosition {
     public String toString() {
         return "COLUMN : " + columnNumber;
     }
+
+    public int getColumnNumber() {
+        return columnNumber;
+    }
 }

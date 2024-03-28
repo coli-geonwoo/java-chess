@@ -7,7 +7,6 @@ import java.util.stream.IntStream;
 import static java.util.stream.Collectors.toMap;
 
 public class RowPosition {
-
     public static final int MIN_NUMBER = 0;
     public static final int MAX_NUMBER = 7;
     public static final LinkedHashMap<Integer, RowPosition> POOL = IntStream.rangeClosed(MIN_NUMBER, MAX_NUMBER)
@@ -64,5 +63,9 @@ public class RowPosition {
     @Override
     public String toString() {
         return "ROW : " + rowNumber;
+    }
+
+    public int getRowNumber() {
+        return rowNumber;
     }
 }

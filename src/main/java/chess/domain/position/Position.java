@@ -31,8 +31,8 @@ public class Position {
         return POOL.get(toKey(row, col));
     }
 
-    private static String toKey(RowPosition rowPosition, ColumnPosition colPosition) {
-        return String.valueOf(rowPosition) + colPosition;
+    public static String toKey(RowPosition rowPosition, ColumnPosition colPosition) {
+        return String.valueOf(rowPosition.getRowNumber()) + colPosition.getColumnNumber();
     }
 
     public boolean isStraightWith(Position target) {
