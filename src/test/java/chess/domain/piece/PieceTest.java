@@ -26,7 +26,7 @@ class PieceTest {
     void should_ReturnPieceScore() {
         Piece bishop = new Bishop(Team.BLACK);
         Piece rook = new Rook(Team.BLACK);
-        Piece pawn = Pawn.blackPawn();
+        Piece pawn = Pawn.of(Team.BLACK);
         Piece queen = new Queen(Team.BLACK);
         Piece knight = new Knight(Team.BLACK);
         Piece king = new King(Team.BLACK);

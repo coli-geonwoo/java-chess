@@ -26,7 +26,7 @@ class ChessBoardTest {
     @DisplayName("체스보드의 특정위치에 기물이 없는지 확인할 수 있다")
     @Test
     void should_CheckPositionEmptiness_When_GivenPosition() {
-        ChessBoard board = ChessBoard.normalBoard(Map.ofEntries(Map.entry(D3, Pawn.blackPawn())));
+        ChessBoard board = ChessBoard.normalBoard(Map.ofEntries(Map.entry(D3, Pawn.of(Team.BLACK))));
         assertAll(
                 () -> assertThat(board.positionIsEmpty(D3)).isFalse(),
                 () -> assertThat(board.positionIsEmpty(D2)).isTrue()
@@ -47,7 +47,7 @@ class ChessBoardTest {
     @DisplayName("체스보드 특정 위치의 기물을 가져올 수 있다")
     @Test
     void should_GetPieceByPosition_When_GiveTargetPosition() {
-        ChessBoard board = ChessBoard.normalBoard(Map.ofEntries(Map.entry(D3, Pawn.blackPawn())));
+        ChessBoard board = ChessBoard.normalBoard(Map.ofEntries(Map.entry(D3, Pawn.of(Team.BLACK))));
 
         assertThat(board.findPieceByPosition(D3)).isInstanceOf(Pawn.class);
     }
@@ -55,7 +55,7 @@ class ChessBoardTest {
     @DisplayName("체스보드 특정 위치의 기물을 가져올 때, 위치에 기물이 없으면 NullPiece를 반환한다")
     @Test
     void should_ReturnNullPiece_When_TargetPositionIsEmpty() {
-        ChessBoard board = ChessBoard.normalBoard(Map.ofEntries(Map.entry(D3, Pawn.blackPawn())));
+        ChessBoard board = ChessBoard.normalBoard(Map.ofEntries(Map.entry(D3, Pawn.of(Team.BLACK))));
         Piece foundPiece = board.findPieceByPosition(D2);
         assertThat(foundPiece).isEqualTo(NullPiece.getInstance());
     }

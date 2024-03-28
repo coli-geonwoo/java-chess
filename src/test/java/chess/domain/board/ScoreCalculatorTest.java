@@ -80,8 +80,8 @@ class ScoreCalculatorTest {
     @Test
     void should_CountOneScoreByOnePawn_When_OnlyOnePawnInColumn() {
         Map<Position, Piece> board = Map.ofEntries(
-                Map.entry(A8, Pawn.blackPawn()),
-                Map.entry(B7, Pawn.blackPawn()));
+                Map.entry(A8, Pawn.of(Team.BLACK)),
+                Map.entry(B7, Pawn.of(Team.BLACK)));
         ScoreCalculator calculator = ScoreCalculator.gameScoreCalculator();
 
         Score blackTeamScore = calculator.calculateTeamScore(board, Team.BLACK);
@@ -104,9 +104,9 @@ class ScoreCalculatorTest {
     @Test
     void should_CountPointFiveScoreByOnePawn_When_MoreThanOnePawnInColumn() {
         Map<Position, Piece> board = Map.ofEntries(
-                Map.entry(A8, Pawn.blackPawn()),
-                Map.entry(A7, Pawn.blackPawn()),
-                Map.entry(F4, Pawn.blackPawn()));
+                Map.entry(A8, Pawn.of(Team.BLACK)),
+                Map.entry(A7, Pawn.of(Team.BLACK)),
+                Map.entry(F4, Pawn.of(Team.BLACK)));
         ScoreCalculator calculator = ScoreCalculator.gameScoreCalculator();
 
         Score blackTeamScore = calculator.calculateTeamScore(board, Team.BLACK);

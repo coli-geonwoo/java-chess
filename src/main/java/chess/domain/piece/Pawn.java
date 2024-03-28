@@ -15,14 +15,12 @@ public sealed abstract class Pawn extends Piece
         super(team, score);
     }
 
-    public static Pawn blackPawn() {
-        return new BlackPawn();
-    }
-
-    public static Pawn whitePawn() {
+    public static Pawn of(Team team) {
+        if (team == Team.BLACK) {
+            return new BlackPawn();
+        }
         return new WhitePawn();
     }
-
 
     abstract boolean isInitialPawnRow(Position start);
 
