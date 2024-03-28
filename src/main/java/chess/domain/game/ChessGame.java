@@ -20,6 +20,10 @@ public class ChessGame {
         return new ChessGame(board, Team.WHITE);
     }
 
+    public static ChessGame runningGame(ChessBoard board, Team team){
+        return new ChessGame(board, team);
+    }
+
     public void playTurn(Position start, Position destination) {
         checkPieceIsTurnTeamPiece(start);
         board.move(start, destination);
@@ -72,5 +76,9 @@ public class ChessGame {
 
     public ChessBoard getBoard() {
         return board;
+    }
+
+    public Team getTurn() {
+        return turn;
     }
 }
