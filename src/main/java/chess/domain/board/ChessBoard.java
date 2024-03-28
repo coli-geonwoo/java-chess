@@ -16,7 +16,7 @@ public class ChessBoard {
         this.calculator = calculator;
     }
 
-    public static ChessBoard normalBoard(Map<Position, Piece> board){
+    public static ChessBoard normalBoard(Map<Position, Piece> board) {
         return new ChessBoard(board, ScoreCalculator.gameScoreCalculator());
     }
 
@@ -39,14 +39,14 @@ public class ChessBoard {
         throw new IllegalArgumentException("잘못된 움직임 명령입니다.");
     }
 
-    public Score teamScore(Team team){
+    public Score teamScore(Team team) {
         return calculator.calculateTeamScore(board, team);
     }
 
-    public boolean isKingAlive(Team team){
+    public boolean isKingAlive(Team team) {
         return board.values()
                 .stream()
-                .anyMatch(piece-> piece.isKing() && piece.isSameTeam(team));
+                .anyMatch(piece -> piece.isKing() && piece.isSameTeam(team));
     }
 
     private void movePiece(Position start, Position destination) {
@@ -67,7 +67,7 @@ public class ChessBoard {
                 .allMatch(this::positionIsEmpty);
     }
 
-    public Map<Position, Piece> status(){
+    public Map<Position, Piece> status() {
         return board;
     }
 }

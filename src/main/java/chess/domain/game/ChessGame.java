@@ -20,7 +20,7 @@ public class ChessGame {
         return new ChessGame(board, Team.WHITE);
     }
 
-    public static ChessGame runningGame(ChessBoard board, Team team){
+    public static ChessGame runningGame(ChessBoard board, Team team) {
         return new ChessGame(board, team);
     }
 
@@ -35,14 +35,14 @@ public class ChessGame {
     }
 
     public Team winTeam() {
-        if(isEndGame()){
+        if (isEndGame()) {
             return winTeamInEndGame();
         }
         return winTeamInRunningGame();
     }
 
     private Team winTeamInEndGame() {
-        if(board.isKingAlive(Team.BLACK)){
+        if (board.isKingAlive(Team.BLACK)) {
             return Team.BLACK;
         }
         return Team.WHITE;

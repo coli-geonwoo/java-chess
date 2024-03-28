@@ -42,7 +42,7 @@ public class ScoreCalculator {
         return board.entrySet()
                 .stream()
                 .filter(p -> p.getValue().isPawn())
-                .filter(p-> p.getValue().isSameTeam(team))
+                .filter(p -> p.getValue().isSameTeam(team))
                 .map(Map.Entry::getKey)
                 .toList();
     }

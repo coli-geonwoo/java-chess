@@ -18,11 +18,11 @@ public enum TeamMessage {
         this.teamMessage = teamMessage;
     }
 
-    public static String messageOf(Team targetTeam){
+    public static String messageOf(Team targetTeam) {
         return Stream.of(values())
-                .filter(t-> t.team==targetTeam)
+                .filter(t -> t.team == targetTeam)
                 .findAny()
-                .orElseThrow(()-> new IllegalStateException("알 수 없는 팀입니다."))
+                .orElseThrow(() -> new IllegalStateException("알 수 없는 팀입니다."))
                 .teamMessage;
     }
 }

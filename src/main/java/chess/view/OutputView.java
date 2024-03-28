@@ -32,7 +32,7 @@ public class OutputView {
     }
 
     public void printStatusMessage(ChessGame game) {
-        if(!game.isEndGame()){
+        if (!game.isEndGame()) {
             printGameScores(game);
         }
         printWinTeam(game);

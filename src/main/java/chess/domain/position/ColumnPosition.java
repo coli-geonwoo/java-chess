@@ -12,7 +12,7 @@ public class ColumnPosition {
 
     public static final LinkedHashMap<Integer, ColumnPosition> POOL = IntStream.rangeClosed(MIN_NUMBER, MAX_NUMBER)
             .boxed()
-            .collect(toMap(i -> i, ColumnPosition::new, (v1,v2)-> v2, LinkedHashMap::new));
+            .collect(toMap(i -> i, ColumnPosition::new, (v1, v2) -> v2, LinkedHashMap::new));
 
 
     private final int columnNumber;
