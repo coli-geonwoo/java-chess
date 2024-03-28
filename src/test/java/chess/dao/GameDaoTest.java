@@ -1,10 +1,13 @@
 package chess.dao;
 
 import chess.domain.game.ChessGame;
+import chess.view.OutputView;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
 
+import static chess.domain.position.Fixture.*;
+import static chess.domain.position.Fixture.G5;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class GameDaoTest {
@@ -27,7 +30,15 @@ class GameDaoTest {
 
     @Test
     void findGame() {
-        ChessGame game = gameDao.findGame();
+        ChessGame game1 = ChessGame.newGame();
+        game1.playTurn(D2, D4);
+        game1.playTurn(E7, E6);
+        game1.playTurn(C1, G5);
+        gameDao.saveGame(game1);
+        OutputView outputView = new OutputView();
+        outputView.printChessBoardMessage(game1.getBoard());
+        System.out.println();
+        outputView.printChessBoardMessage(gameDao.findGame().getBoard());
     }
 
 }

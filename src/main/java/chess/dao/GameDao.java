@@ -40,26 +40,24 @@ public final class GameDao {
     }
 
     public ChessGame findGame() {
-        if(canFindRunningGame()){
+        if (canFindRunningGame()) {
             return ChessGame.runningGame(findBoard(), findTurn());
         }
-
         return ChessGame.newGame();
     }
 
-    private boolean canFindRunningGame(){
+    private boolean canFindRunningGame() {
         final var query = "SELECT * FROM board WHERE distinct_piece = 1;";
         try (final var connection = getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             final var resultSet = preparedStatement.executeQuery();
-
             return resultSet.next();
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void resetBoard() {
+    private void resetBoard() {
         final var query = "UPDATE board SET distinct_piece = 0;";
         try (final var connection = getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
@@ -107,12 +105,9 @@ public final class GameDao {
              final var preparedStatement = connection.prepareStatement(query)) {
             final var resultSet = preparedStatement.executeQuery();
             Map<Position, Piece> board = new HashMap<>();
-            if (resultSet.next()) {
-                String position = resultSet.getString("position");
-                Position p = Position.of(position.charAt(0) - '0', position.charAt(1) - '0');
-                String piece_type = resultSet.getString("piece_type");
-                Team team = TeamMapper.findTeam(resultSet.getString("team"));
-                Piece piece = PieceMapper.findPieceByType(piece_type, team);
+            while (resultSet.next()) {
+                Position p = convertMessageToPosition(resultSet.getString("position"));
+                Piece piece = convertMessageToPiece(resultSet.getString("piece_type"), resultSet.getString("team"));
                 board.put(p, piece);
             }
             return ChessBoard.normalBoard(board);
@@ -136,5 +131,14 @@ public final class GameDao {
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private Position convertMessageToPosition(String position) {
+        return Position.of(position.charAt(0) - '0', position.charAt(1) - '0');
+    }
+
+    private Piece convertMessageToPiece(String pieceType, String team) {
+        Team foundTeam = TeamMapper.findTeam(team);
+        return PieceMapper.findPieceByType(pieceType, foundTeam);
     }
 }
