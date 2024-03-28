@@ -122,4 +122,8 @@ public class Position {
     public ColumnPosition getColumnPosition() {
         return columnPosition;
     }
+
+    public RowPosition getRowPosition() {
+        return rowPosition;
+    }
 }

@@ -66,4 +66,8 @@ public class ChessBoard {
                 .stream()
                 .allMatch(this::positionIsEmpty);
     }
+
+    public Map<Position, Piece> status(){
+        return board;
+    }
 }

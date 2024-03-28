@@ -45,4 +45,8 @@ public abstract class Piece {
     public boolean isKing() {
         return false;
     }
+
+    public Team getTeam() {
+        return team;
+    }
 }
