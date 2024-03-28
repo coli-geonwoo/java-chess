@@ -34,14 +34,12 @@ public enum PieceMapper {
     }
 
     public static Piece findPieceByType(String typeMessage, Team team) {
-        Piece piece = Stream.of(values())
+        return Stream.of(values())
                 .filter(p -> p.typeMessage.equals(typeMessage))
                 .findAny()
                 .orElseThrow(() -> new IllegalStateException("기물 데이터를 찾을 수 없습니다."))
                 .pieceMaker
                 .apply(team);
-        System.out.println(piece.getClass());
-        return piece;
     }
 
     public String getTypeMessage() {
