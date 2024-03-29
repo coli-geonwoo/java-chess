@@ -108,8 +108,8 @@ class ChessGameTest {
         game.playTurn(H5, E8);
 
         assertAll(
-                ()-> assertThat(game.isEndGame()).isTrue(),
-                ()-> assertThat(game.winTeam()).isEqualTo(Team.WHITE)
+                () -> assertThat(game.isEndGame()).isTrue(),
+                () -> assertThat(game.winTeam()).isEqualTo(Team.WHITE)
         );
     }
 }

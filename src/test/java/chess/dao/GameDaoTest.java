@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import java.sql.SQLException;
 
 import static chess.domain.position.Fixture.*;
-import static chess.domain.position.Fixture.G5;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class GameDaoTest {

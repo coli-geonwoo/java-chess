@@ -62,12 +62,12 @@ class ChessBoardTest {
 
     @DisplayName("특정 팀의 킹이 살아있는지 확인할 수 있다")
     @Test
-    void should_CheckKingIsAlive(){
+    void should_CheckKingIsAlive() {
         ChessBoard board = ChessBoard.normalBoard(Map.ofEntries(Map.entry(D3, new King(Team.BLACK))));
 
         assertAll(
-                ()-> assertThat(board.isKingAlive(Team.BLACK)).isTrue(),
-                ()-> assertThat(board.isKingAlive(Team.WHITE)).isFalse()
+                () -> assertThat(board.isKingAlive(Team.BLACK)).isTrue(),
+                () -> assertThat(board.isKingAlive(Team.WHITE)).isFalse()
         );
     }
 }
