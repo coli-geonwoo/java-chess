@@ -47,6 +47,7 @@ public class OutputView {
         System.out.println(resolveScoreMessage(game, Team.BLACK));
     }
 
+    // TODO : status Message 추가하기
     private String resolveStartMessage() {
         return new StringJoiner(LINE_SEPARATOR)
                 .add("체스 게임을 시작합니다.")

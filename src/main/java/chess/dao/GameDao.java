@@ -7,6 +7,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public final class GameDao {
+    // TODO 커넥션 담당 객체 분리하기
     private static final String SERVER = "localhost:13306";
     private static final String DATABASE = "chess";
     private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";

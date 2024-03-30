@@ -20,6 +20,7 @@ public class ChessGameController {
         this.outputView = outputView;
     }
 
+    // TODO DAO를 알고 있지 못하게 리팩터링
     public void run() {
         Command command;
         ChessGame game = gameDao.findGame();
