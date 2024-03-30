@@ -25,8 +25,9 @@ public class BoardDao {
 
     public void resetBoard() {
         final var query = "UPDATE board SET distinct_piece = 0, piece_type =null, team = null;";
-        try (final var connection = connectionGenerator.getConnection();
-             final var preparedStatement = connection.prepareStatement(query)) {
+        try {
+            final var connection = connectionGenerator.getConnection();
+            final var preparedStatement = connection.prepareStatement(query);
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
             throw new RuntimeException("보드 리셋 오류");
@@ -42,8 +43,9 @@ public class BoardDao {
 
     public ChessBoard findBoard() {
         final var query = "SELECT * FROM board WHERE distinct_piece = 1";
-        try (final Connection connection = connectionGenerator.getConnection();
-             final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try {
+            final Connection connection = connectionGenerator.getConnection();
+            final PreparedStatement preparedStatement = connection.prepareStatement(query);
             final ResultSet resultSet = preparedStatement.executeQuery();
             Map<Position, Piece> board = new HashMap<>();
             while (resultSet.next()) {
@@ -57,13 +59,26 @@ public class BoardDao {
         }
     }
 
-    private void updatePiecePosition(final Position position, Piece piece) {
+    public void updatePiecePosition(final Position position, Piece piece) {
         final var query = "UPDATE board SET distinct_piece = 1, piece_type = ? , team = ? WHERE position = ?;";
-        try (final var connection = connectionGenerator.getConnection();
-             final var preparedStatement = connection.prepareStatement(query)) {
+        try {
+            final var connection = connectionGenerator.getConnection();
+            final var preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, PieceMapper.typeMessageOf(piece));
             preparedStatement.setString(2, TeamMapper.messageOf(piece.getTeam()));
             preparedStatement.setString(3, Position.toKey(position.getRowPosition(), position.getColumnPosition()));
+            preparedStatement.executeUpdate();
+        } catch (final SQLException e) {
+            throw new RuntimeException("기물 위치 업데이트 기능 오류");
+        }
+    }
+
+    public void updateEmptyPosition(final Position position) {
+        final var query = "UPDATE board SET distinct_piece = 0, piece_type = null , team = null WHERE position = ?;";
+        try {
+            final var connection = connectionGenerator.getConnection();
+            final var preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, Position.toKey(position.getRowPosition(), position.getColumnPosition()));
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
             throw new RuntimeException("기물 위치 업데이트 기능 오류");
