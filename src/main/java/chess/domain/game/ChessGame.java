@@ -41,6 +41,10 @@ public class ChessGame {
         return winTeamInRunningGame();
     }
 
+    public boolean isEndGame() {
+        return !board.isKingAlive(turn);
+    }
+
     private Team winTeamInEndGame() {
         if (board.isKingAlive(Team.BLACK)) {
             return Team.BLACK;
@@ -58,10 +62,6 @@ public class ChessGame {
             return Team.BLACK;
         }
         return Team.NONE;
-    }
-
-    public boolean isEndGame() {
-        return !board.isKingAlive(turn);
     }
 
     private void checkPieceIsTurnTeamPiece(Position start) {
