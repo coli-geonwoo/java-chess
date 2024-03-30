@@ -4,22 +4,10 @@ import chess.domain.game.ChessGame;
 import chess.view.OutputView;
 import org.junit.jupiter.api.Test;
 
-import java.sql.SQLException;
-
 import static chess.domain.position.Fixture.*;
-import static org.assertj.core.api.Assertions.assertThat;
 
 class GameDaoTest {
-    private final GameDao gameDao = new GameDao();
-
-    @Test
-    public void connection() {
-        try (final var connection = gameDao.getConnection()) {
-            assertThat(connection).isNotNull();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
+    private final GameDao gameDao = GameDao.of();
 
     @Test
     void saveGame() {

@@ -6,21 +6,26 @@ import chess.domain.piece.Team;
 import chess.domain.position.Position;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class BoardDao {
-    private static final String SERVER = "localhost:13306";
-    private static final String DATABASE = "chess";
-    private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-    private static final String USERNAME = "root";
-    private static final String PASSWORD = "root";
+    private final ConnectionGenerator connectionGenerator;
+
+    public BoardDao(ConnectionGenerator connectionGenerator) {
+        this.connectionGenerator = connectionGenerator;
+    }
+
+    public static BoardDao of() {
+        return new BoardDao(new ConnectionGenerator());
+    }
 
     public void resetBoard() {
         final var query = "UPDATE board SET distinct_piece = 0, piece_type =null, team = null;";
-        try (final var connection = getConnection();
+        try (final var connection = connectionGenerator.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
@@ -37,9 +42,9 @@ public class BoardDao {
 
     public ChessBoard findBoard() {
         final var query = "SELECT * FROM board WHERE distinct_piece = 1";
-        try (final var connection = getConnection();
-             final var preparedStatement = connection.prepareStatement(query)) {
-            final var resultSet = preparedStatement.executeQuery();
+        try (final Connection connection = connectionGenerator.getConnection();
+             final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            final ResultSet resultSet = preparedStatement.executeQuery();
             Map<Position, Piece> board = new HashMap<>();
             while (resultSet.next()) {
                 Position p = convertMessageToPosition(resultSet.getString("position"));
@@ -54,7 +59,7 @@ public class BoardDao {
 
     private void updatePiecePosition(final Position position, Piece piece) {
         final var query = "UPDATE board SET distinct_piece = 1, piece_type = ? , team = ? WHERE position = ?;";
-        try (final var connection = getConnection();
+        try (final var connection = connectionGenerator.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, PieceMapper.typeMessageOf(piece));
             preparedStatement.setString(2, TeamMapper.messageOf(piece.getTeam()));
@@ -62,16 +67,6 @@ public class BoardDao {
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
             throw new RuntimeException("기물 위치 업데이트 기능 오류");
-        }
-    }
-
-    private Connection getConnection() {
-        try {
-            return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
-        } catch (final SQLException e) {
-            System.err.println("DB 연결 오류:" + e.getMessage());
-            e.printStackTrace();
-            return null;
         }
     }
 

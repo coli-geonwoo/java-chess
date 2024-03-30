@@ -11,7 +11,7 @@ import static chess.util.retryHelper.retryUntilNoError;
 import static chess.view.CommandMapper.START;
 
 public class ChessGameController {
-    private static final GameDao gameDao = new GameDao();
+    private static final GameDao gameDao = GameDao.of();
     private final InputView inputView;
     private final OutputView outputView;
 
