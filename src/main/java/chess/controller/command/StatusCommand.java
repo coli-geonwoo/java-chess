@@ -1,6 +1,7 @@
 package chess.controller.command;
 
 import chess.domain.game.ChessGame;
+import chess.service.ChessGameService;
 import chess.view.OutputView;
 
 public final class StatusCommand implements Command {
@@ -14,8 +15,8 @@ public final class StatusCommand implements Command {
 
 
     @Override
-    public void execute(ChessGame game, OutputView outputView) {
-        outputView.printStatusMessage(game);
+    public void execute(ChessGameService service, OutputView outputView) {
+        outputView.printStatusMessage(service.getGame());
     }
 
     @Override

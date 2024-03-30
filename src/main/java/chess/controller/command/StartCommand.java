@@ -1,6 +1,7 @@
 package chess.controller.command;
 
 import chess.domain.game.ChessGame;
+import chess.service.ChessGameService;
 import chess.view.OutputView;
 
 public final class StartCommand implements Command {
@@ -13,8 +14,8 @@ public final class StartCommand implements Command {
     }
 
     @Override
-    public void execute(ChessGame game, OutputView outputView) {
-        outputView.printChessBoardMessage(game.getBoard());
+    public void execute(ChessGameService service, OutputView outputView) {
+        outputView.printChessBoardMessage(service.gameBoard());
     }
 
     @Override

@@ -3,6 +3,7 @@ package chess.domain.game;
 import chess.domain.board.ChessBoard;
 import chess.domain.board.ChessBoardCreator;
 import chess.domain.board.Score;
+import chess.domain.piece.Piece;
 import chess.domain.piece.Team;
 import chess.domain.position.Position;
 
@@ -43,6 +44,10 @@ public class ChessGame {
 
     public boolean isEndGame() {
         return !board.isKingAlive(turn);
+    }
+
+    public Piece findPieceByPosition(Position position){
+        return board.findPieceByPosition(position);
     }
 
     private Team winTeamInEndGame() {

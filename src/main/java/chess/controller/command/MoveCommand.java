@@ -3,6 +3,7 @@ package chess.controller.command;
 import chess.domain.game.ChessGame;
 import chess.domain.position.Position;
 import chess.domain.position.RowPosition;
+import chess.service.ChessGameService;
 import chess.view.OutputView;
 
 import java.util.List;
@@ -38,9 +39,9 @@ public final class MoveCommand implements Command {
     }
 
     @Override
-    public void execute(ChessGame game, OutputView outputView) {
-        game.playTurn(start, destination);
-        outputView.printChessBoardMessage(game.getBoard());
+    public void execute(ChessGameService service, OutputView outputView) {
+        service.playTurn(start, destination);
+        outputView.printChessBoardMessage(service.gameBoard());
     }
 
     @Override
