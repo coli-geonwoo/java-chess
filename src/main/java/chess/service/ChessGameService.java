@@ -34,12 +34,16 @@ public class ChessGameService {
         gameDao.saveTurn(game);
     }
 
-    public boolean isEndGame() {
-        return game.isEndGame();
+    public void end(){
+        if(isEndGame()){
+            gameDao.saveGame(ChessGame.newGame());
+            return;
+        }
+        gameDao.saveGame(game);
     }
 
-    public void end(){
-        gameDao.saveGame(game);
+    public boolean isEndGame() {
+        return game.isEndGame();
     }
 
     public ChessBoard gameBoard(){

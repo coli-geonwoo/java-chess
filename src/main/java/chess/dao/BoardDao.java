@@ -23,18 +23,8 @@ public class BoardDao {
         return new BoardDao(new ConnectionGenerator());
     }
 
-    public void resetBoard() {
-        final var query = "UPDATE board SET distinct_piece = 0, piece_type =null, team = null;";
-        try {
-            final var connection = connectionGenerator.getConnection();
-            final var preparedStatement = connection.prepareStatement(query);
-            preparedStatement.executeUpdate();
-        } catch (final SQLException e) {
-            throw new RuntimeException("보드 리셋 오류");
-        }
-    }
-
     public void saveBoard(ChessBoard board) {
+        resetBoard();
         Map<Position, Piece> boardStatus = board.status();
         for (Map.Entry<Position, Piece> entry : boardStatus.entrySet()) {
             updatePiecePosition(entry.getKey(), entry.getValue());
@@ -82,6 +72,17 @@ public class BoardDao {
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
             throw new RuntimeException("기물 위치 업데이트 기능 오류");
+        }
+    }
+
+    private void resetBoard() {
+        final var query = "UPDATE board SET distinct_piece = 0, piece_type =null, team = null;";
+        try {
+            final var connection = connectionGenerator.getConnection();
+            final var preparedStatement = connection.prepareStatement(query);
+            preparedStatement.executeUpdate();
+        } catch (final SQLException e) {
+            throw new RuntimeException("보드 리셋 오류");
         }
     }
 
