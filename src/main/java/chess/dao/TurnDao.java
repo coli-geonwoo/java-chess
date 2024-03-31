@@ -1,5 +1,6 @@
 package chess.dao;
 
+import chess.database.ConnectionGenerator;
 import chess.domain.game.ChessGame;
 import chess.domain.piece.Team;
 
@@ -9,15 +10,19 @@ import java.sql.SQLException;
 
 public class TurnDao {
 
-    private static final String SERVER = "localhost:13306";
-    private static final String DATABASE = "chess";
-    private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-    private static final String USERNAME = "root";
-    private static final String PASSWORD = "root";
+    private final ConnectionGenerator connectionGenerator;
+
+    private TurnDao(ConnectionGenerator connectionGenerator) {
+        this.connectionGenerator = connectionGenerator;
+    }
+
+    public static TurnDao of (){
+        return new TurnDao(new ConnectionGenerator());
+    }
 
     public void saveTurn(ChessGame game) {
         final var query = "UPDATE turn SET team = ?;";
-        try (final var connection = getConnection();
+        try (final var connection = connectionGenerator.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, TeamMapper.messageOf(game.getTurn()));
             preparedStatement.executeUpdate();
@@ -28,7 +33,7 @@ public class TurnDao {
 
     public Team findTurn() {
         final var query = "SELECT team FROM turn";
-        try (final var connection = getConnection();
+        try (final var connection = connectionGenerator.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             final var resultSet = preparedStatement.executeQuery();
 
@@ -41,15 +46,4 @@ public class TurnDao {
             throw new RuntimeException("턴 조회 기능 오류");
         }
     }
-
-    private Connection getConnection() {
-        try {
-            return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
-        } catch (final SQLException e) {
-            System.err.println("DB 연결 오류:" + e.getMessage());
-            e.printStackTrace();
-            return null;
-        }
-    }
-
 }
