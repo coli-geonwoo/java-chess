@@ -142,3 +142,19 @@
   - 각 커맨드의 실행 로직을 다형성을 통해 실행로직 단순화
   - 커맨드 확장성 강화
 
+---
+## 3-4단계 리뷰 개선사안
+
+### 1차 리뷰 개선사안
+- sql 파일 첨부
+  - docker/mysql/init/create_table.sql : 초기 테이블 생성
+  - docker/mysql/init/insert_data.sql : 초기 데이터 생성
+
+- service layer 생성
+  - ChessGameService : db와 domain간의 상호작용 캡슐화
+  - DBService : boardDao와 TurnDao간의 상호작용 캡슐화
+
+- DB의 생성 로직 제거 : 단순 접근 책임을 가지도록 리팩터링
+- connetion 관리 객체 분리
+- status 안내 메시지 추가
+- FakeBoardDao 객체를 통한 boardDao 테스트
