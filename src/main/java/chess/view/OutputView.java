@@ -27,8 +27,10 @@ public class OutputView {
         System.out.println(resolveStartMessage());
     }
 
-    public void printChessBoardMessage(ChessBoard chessBoard) {
-        System.out.println(resolveChessBoardMessage(chessBoard));
+    public String printChessBoardMessage(ChessBoard chessBoard) {
+        String message = resolveChessBoardMessage(chessBoard);
+        System.out.println(message);
+        return message;
     }
 
     public void printStatusMessage(ChessGame game) {
