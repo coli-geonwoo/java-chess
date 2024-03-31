@@ -31,7 +31,7 @@ public final class DBServcie {
         turnDao.saveTurn(game);
     }
 
-    public void setNewGame() {
+    public void saveNewGame() {
         ChessGame game = ChessGame.newGame();
         boardDao.resetBoard();
         boardDao.saveBoard(game.getBoard());

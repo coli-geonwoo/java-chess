@@ -23,7 +23,7 @@ public class ChessGameService {
     private static ChessGame initializeGame(DBServcie dbServcie) {
         ChessGame previousGame = dbServcie.loadPreviousGame();
         if (previousGame.isEndGame()) {
-            dbServcie.setNewGame();
+            dbServcie.saveNewGame();
             return ChessGame.newGame();
         }
         return previousGame;
