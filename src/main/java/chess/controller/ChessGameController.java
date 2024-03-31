@@ -1,7 +1,6 @@
 package chess.controller;
 
 import chess.controller.command.Command;
-import chess.dao.GameDao;
 import chess.domain.game.ChessGame;
 import chess.service.ChessGameService;
 import chess.view.CommandMapper;
