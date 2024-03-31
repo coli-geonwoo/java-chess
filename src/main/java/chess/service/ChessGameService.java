@@ -35,19 +35,11 @@ public class ChessGameService {
         dbServcie.saveTurn(game);
     }
 
-    public void end(){
-        if(isEndGame()){
-            gameDao.saveGame(ChessGame.newGame());
-            return;
-        }
-        gameDao.saveGame(game);
-    }
-
     public boolean isEndGame() {
         return game.isEndGame();
     }
 
-    public ChessBoard gameBoard(){
+    public ChessBoard gameBoard() {
         return game.getBoard();
     }
 

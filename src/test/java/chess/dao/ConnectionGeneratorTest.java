@@ -1,15 +1,14 @@
 package chess.dao;
 
+import chess.database.ConnectionGenerator;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class ConnectionGeneratorTest {
 
     @Test
-    void connectionTest(){
+    void connectionTest() {
         Connection connection = new ConnectionGenerator().getConnection();
     }
 
