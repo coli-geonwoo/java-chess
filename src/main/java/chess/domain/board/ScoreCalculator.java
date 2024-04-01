@@ -12,9 +12,8 @@ import static java.util.stream.Collectors.counting;
 import static java.util.stream.Collectors.groupingBy;
 
 public class ScoreCalculator {
-    // TODO 어떤 minus Score인지 이름에서 표현
-    private static final int MINUS_SCORE_THRESHOLD = 2;
-    private static final Score MINUS_SCORE = Score.from(0.5);
+    private static final int PAWN_MINUS_SCORE_THRESHOLD = 2;
+    private static final Score PAWN_MINUS_SCORE = Score.from(0.5);
     private static final Score ZERO_SCORE = Score.from(0);
 
     private ScoreCalculator() {
@@ -30,7 +29,6 @@ public class ScoreCalculator {
         return totalScore.minus(calculateMinusPawnScore(pawnPositions));
     }
 
-    // TODO : 팀이 기물이 하나도 없다면 0점이 반환되어야 하는 것이 맞지 않은가?
     private Score calculateTotalTeamScore(Map<Position, Piece> board, Team team) {
         return board.values()
                 .stream()
@@ -62,8 +60,8 @@ public class ScoreCalculator {
     }
 
     private Score oneColumnPawnScore(Long oneColumnPawnCount) {
-        if (oneColumnPawnCount >= MINUS_SCORE_THRESHOLD) {
-            return MINUS_SCORE.multiply(oneColumnPawnCount);
+        if (oneColumnPawnCount >= PAWN_MINUS_SCORE_THRESHOLD) {
+            return PAWN_MINUS_SCORE.multiply(oneColumnPawnCount);
         }
         return ZERO_SCORE;
     }

@@ -8,7 +8,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class KingTest {
-    //TODO: 나이트와 킹 Fixture활용해서 직관적으로 표현하기
     @DisplayName("성공 : 킹은 상하,좌우 방향으로 한칸 이동할 수 있다")
     @ParameterizedTest
     @CsvSource(value = {"3,2", "3,4", "4,3", "2,3"})
