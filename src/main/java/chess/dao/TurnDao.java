@@ -1,6 +1,6 @@
 package chess.dao;
 
-import chess.database.DbConnector;
+import chess.database.ConnectionPool;
 import chess.domain.game.ChessGame;
 import chess.domain.piece.Team;
 
@@ -11,25 +11,26 @@ import java.sql.SQLException;
 
 public class TurnDao {
 
-    private final DbConnector dbConnector;
+    private final ConnectionPool connectionPool;
 
-    private TurnDao(DbConnector dbConnector) {
-        this.dbConnector = dbConnector;
+    private TurnDao(ConnectionPool connectionPool) {
+        this.connectionPool = connectionPool;
         if (isFirstCall()) {
             initializeTurn();
         }
     }
 
     public static TurnDao of() {
-        return new TurnDao(new DbConnector());
+        return new TurnDao(new ConnectionPool());
     }
 
     public void saveTurn(ChessGame game) {
         final var query = "UPDATE turn SET team = ?;";
-        try (final var connection = dbConnector.getConnection();
+        try (final var connection = connectionPool.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, TeamMapper.messageOf(game.getTurn()));
             preparedStatement.executeUpdate();
+            connectionPool.returnConnection(connection);
         } catch (final SQLException e) {
             throw new RuntimeException("턴 저장 기능 오류");
         }
@@ -37,9 +38,10 @@ public class TurnDao {
 
     public Team findTurn() {
         final var query = "SELECT team FROM turn";
-        try (final var connection = dbConnector.getConnection();
-             final var preparedStatement = connection.prepareStatement(query)) {
-            final var resultSet = preparedStatement.executeQuery();
+        try (final var connection = connectionPool.getConnection();
+             final var preparedStatement = connection.prepareStatement(query);
+            final var resultSet = preparedStatement.executeQuery()){
+            connectionPool.returnConnection(connection);
 
             if (resultSet.next()) {
                 String turnTeam = resultSet.getString("team");
@@ -53,10 +55,12 @@ public class TurnDao {
 
     private boolean isFirstCall() {
         final var query = "SELECT COUNT(*) AS CNT FROM turn";
-        try (final Connection connection = dbConnector.getConnection();
-             final PreparedStatement preparedStatement = connection.prepareStatement(query);
-             final ResultSet resultSet = preparedStatement.executeQuery()) {
-            return resultSet.next();
+        try {
+            Connection connection = connectionPool.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            connectionPool.returnConnection(connection);
+            return !resultSet.next();
         } catch (final SQLException e) {
             throw new RuntimeException("Turn table 조회 기능 오류");
         }
@@ -65,9 +69,10 @@ public class TurnDao {
 
     private void initializeTurn() {
         final var query = "INSERT INTO turn(team) VALUE ('white');";
-        try (final var connection = dbConnector.getConnection()) {
-            final var preparedStatement = connection.prepareStatement(query);
+        try (final var connection = connectionPool.getConnection();
+            final var preparedStatement = connection.prepareStatement(query)){
             preparedStatement.executeUpdate();
+            connectionPool.returnConnection(connection);
         } catch (final SQLException e) {
             e.printStackTrace();
             throw new RuntimeException("턴 초기화 오류");

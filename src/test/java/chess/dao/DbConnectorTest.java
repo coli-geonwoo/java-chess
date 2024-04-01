@@ -9,7 +9,7 @@ class DbConnectorTest {
 
     @Test
     void connectionTest() {
-        Connection connection = new DbConnector().getConnection();
+        Connection connection = new DbConnector().createNewConnection();
     }
 
 }

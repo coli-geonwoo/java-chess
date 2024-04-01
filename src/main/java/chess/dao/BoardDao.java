@@ -1,6 +1,6 @@
 package chess.dao;
 
-import chess.database.DbConnector;
+import chess.database.ConnectionPool;
 import chess.domain.board.ChessBoard;
 import chess.domain.piece.Piece;
 import chess.domain.piece.Team;
@@ -15,17 +15,17 @@ import java.util.Map;
 import java.util.Set;
 
 public class BoardDao {
-    private final DbConnector dbConnector;
+    private final ConnectionPool connectionPool;
 
-    public BoardDao(DbConnector dbConnector) {
-        this.dbConnector = dbConnector;
+    public BoardDao(ConnectionPool connectionPool) {
+        this.connectionPool = connectionPool;
         if (isFirstCall()) {
             initializeBoard();
         }
     }
 
     public static BoardDao of() {
-        return new BoardDao(new DbConnector());
+        return new BoardDao(new ConnectionPool());
     }
 
     public void saveBoard(ChessBoard board) {
@@ -37,29 +37,32 @@ public class BoardDao {
 
     public ChessBoard findBoard() {
         final var query = "SELECT * FROM board WHERE distinct_piece = 1";
-        try (final Connection connection = dbConnector.getConnection();
-             final PreparedStatement preparedStatement = connection.prepareStatement(query);
-             final ResultSet resultSet = preparedStatement.executeQuery()) {
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
             Map<Position, Piece> board = new HashMap<>();
             while (resultSet.next()) {
                 Position p = convertMessageToPosition(resultSet.getString("position"));
                 Piece piece = convertMessageToPiece(resultSet.getString("piece_type"), resultSet.getString("team"));
                 board.put(p, piece);
             }
+            connectionPool.returnConnection(connection);
             return ChessBoard.normalBoard(board);
         } catch (final SQLException e) {
+            e.printStackTrace();
             throw new RuntimeException("보드 가져오기 기능 오류");
         }
     }
 
     public void updatePiecePosition(final Position position, Piece piece) {
         final var query = "UPDATE board SET distinct_piece = 1, piece_type = ? , team = ? WHERE position = ?;";
-        try (final var connection = dbConnector.getConnection();
-             final var preparedStatement = connection.prepareStatement(query)) {
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, PieceMapper.typeMessageOf(piece));
             preparedStatement.setString(2, TeamMapper.messageOf(piece.getTeam()));
             preparedStatement.setString(3, Position.toKey(position.getRowPosition(), position.getColumnPosition()));
             preparedStatement.executeUpdate();
+            connectionPool.returnConnection(connection);
         } catch (final SQLException e) {
             throw new RuntimeException("기물 위치 업데이트 기능 오류");
         }
@@ -67,10 +70,11 @@ public class BoardDao {
 
     public void updateEmptyPosition(final Position position) {
         final var query = "UPDATE board SET distinct_piece = 0, piece_type = null , team = null WHERE position = ?;";
-        try (final var connection = dbConnector.getConnection();
+        try (final var connection = connectionPool.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, Position.toKey(position.getRowPosition(), position.getColumnPosition()));
             preparedStatement.executeUpdate();
+            connectionPool.returnConnection(connection);
         } catch (final SQLException e) {
             throw new RuntimeException("기물 위치 업데이트 기능 오류");
         }
@@ -78,9 +82,10 @@ public class BoardDao {
 
     public void resetBoard() {
         final var query = "UPDATE board SET distinct_piece = 0, piece_type =null, team = null;";
-        try (final var connection = dbConnector.getConnection();
+        try (final var connection = connectionPool.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.executeUpdate();
+            connectionPool.returnConnection(connection);
         } catch (final SQLException e) {
             throw new RuntimeException("보드 리셋 오류");
         }
@@ -97,9 +102,10 @@ public class BoardDao {
 
     private boolean isFirstCall() {
         final var query = "SELECT COUNT(*) AS 'CNT' FROM board";
-        try (final Connection connection = dbConnector.getConnection();
+        try (final Connection connection = connectionPool.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query);
              final ResultSet resultSet = preparedStatement.executeQuery()) {
+            connectionPool.returnConnection(connection);
             return !resultSet.next();
         } catch (final SQLException e) {
             e.printStackTrace();
@@ -117,10 +123,11 @@ public class BoardDao {
 
     private void updateOnePosition(String position) {
         final var query = "INSERT INTO board (position, distinct_piece, piece_type, team) VALUE (?, 0, null, null)";
-        try (final var connection = dbConnector.getConnection()) {
+        try (final var connection = connectionPool.getConnection()) {
             final var preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, position);
             preparedStatement.executeUpdate();
+            connectionPool.returnConnection(connection);
         } catch (final SQLException e) {
             e.printStackTrace();
             throw new RuntimeException("보드 초기화 오류");
