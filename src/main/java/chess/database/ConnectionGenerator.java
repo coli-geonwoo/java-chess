@@ -1,5 +1,6 @@
 package chess.database;
 
+import java.net.ConnectException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -12,14 +13,12 @@ public class ConnectionGenerator {
     private static final String PASSWORD = "root";
     private static final Connection CACHE = makeConnection();
 
-    // TODO : null return이 맞는지 고민해보기
     private static Connection makeConnection() {
         try {
             return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
         } catch (final SQLException e) {
-            System.err.println("DB 연결 오류:" + e.getMessage());
             e.printStackTrace();
-            return null;
+            throw new RuntimeException("DB 연결 오류");
         }
     }
 
