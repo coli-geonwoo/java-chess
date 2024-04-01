@@ -97,7 +97,7 @@ class ChessGameTest {
         assertThat(game.winTeam()).isEqualTo(Team.WHITE);
     }
 
-    @DisplayName("끝난 게임에서는 키잉 살아있는 팀을 승리팀으로 반환한다")
+    @DisplayName("끝난 게임에서는 킹이 살아있는 팀을 승리팀으로 반환한다")
     @Test
     void should_ReturnWinTeamWhichKingIsAlive_When_EndGame() {
         ChessGame game = ChessGame.newGame();

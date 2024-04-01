@@ -8,7 +8,6 @@ import chess.domain.piece.Piece;
 import chess.domain.position.Position;
 
 public class ChessGameService {
-    // TODO chessGameService에 대한 테스트 작성해보기
     private final BoardDao boardDao;
     private final TurnDao turnDao;
     private final ChessGame game;
