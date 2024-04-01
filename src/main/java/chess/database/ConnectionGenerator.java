@@ -12,6 +12,7 @@ public class ConnectionGenerator {
     private static final String PASSWORD = "root";
     private static final Connection CACHE = makeConnection();
 
+    // TODO : null return이 맞는지 고민해보기
     private static Connection makeConnection() {
         try {
             return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
@@ -22,6 +23,7 @@ public class ConnectionGenerator {
         }
     }
 
+    // TODO : cache는 makeconnection으로 초기화되는데 null이면 makeConnection도 null을 리턴하지 않을지
     public Connection getConnection() {
         if (CACHE == null) {
             return makeConnection();

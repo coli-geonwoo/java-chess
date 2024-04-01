@@ -6,6 +6,8 @@ import chess.domain.game.ChessGame;
 import chess.domain.position.Position;
 
 public class ChessGameService {
+    // TODO chessGameService에 대한 테스트 작성해보기
+    // TODO boardDao, TurnDao를 가지도록 리팩터링
     private final DBServcie dbServcie;
     private final ChessGame game;
 

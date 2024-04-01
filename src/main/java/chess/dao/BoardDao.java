@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BoardDao {
+    // TODO :초기 보드 초기화 기능 추가
     private final ConnectionGenerator connectionGenerator;
 
     public BoardDao(ConnectionGenerator connectionGenerator) {
