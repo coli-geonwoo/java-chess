@@ -1,6 +1,5 @@
 package chess.database;
 
-import java.net.ConnectException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -27,6 +26,6 @@ public class ConnectionGenerator {
         if (CACHE == null) {
             return makeConnection();
         }
-        return CACHE;
+        return makeConnection();
     }
 }

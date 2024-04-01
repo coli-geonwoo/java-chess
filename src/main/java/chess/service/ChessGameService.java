@@ -23,6 +23,11 @@ public class ChessGameService {
         BoardDao boardDao = BoardDao.of();
         TurnDao turnDao = TurnDao.of();
         ChessGame game = loadPreviousGame(boardDao, turnDao);
+
+        if (game.isEndGame()) {
+            game = ChessGame.newGame();
+        }
+
         return new ChessGameService(boardDao, turnDao, game);
     }
 

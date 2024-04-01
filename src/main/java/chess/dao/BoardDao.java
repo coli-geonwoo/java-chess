@@ -18,8 +18,10 @@ public class BoardDao {
     private final ConnectionGenerator connectionGenerator;
 
     public BoardDao(ConnectionGenerator connectionGenerator) {
-        initializeBoard();
         this.connectionGenerator = connectionGenerator;
+        if (isFirstCall()) {
+            initializeBoard();
+        }
     }
 
     public static BoardDao of() {
@@ -93,20 +95,37 @@ public class BoardDao {
         return PieceMapper.findPieceByType(pieceType, foundTeam);
     }
 
-    private void initializeBoard(){
+    private boolean isFirstCall() {
+        final var query = "SELECT COUNT(*) AS 'CNT' FROM board";
+        try (final Connection connection = connectionGenerator.getConnection();
+             final PreparedStatement preparedStatement = connection.prepareStatement(query);
+             final ResultSet resultSet = preparedStatement.executeQuery()) {
+            if (resultSet.next()) {
+                return resultSet.getInt("CNT") == 0;
+            }
+            return false;
+        } catch (final SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("조회 기능 오류");
+        }
+    }
+
+    private void initializeBoard() {
         Set<String> positions = Position.POOL.keySet();
+        System.out.println(positions);
         for (String position : positions) {
             updateOnePosition(position);
         }
     }
 
-    private void updateOnePosition(String position){
-        final var query = "INSERT INTO 'board' (position, distinct_piece, piece_type, team) VALUES ('?', 0, null, null);";
-        try (final var connection = connectionGenerator.getConnection();
-             final var preparedStatement = connection.prepareStatement(query)) {
+    private void updateOnePosition(String position) {
+        final var query = "INSERT INTO board (position, distinct_piece, piece_type, team) VALUE (?, 0, null, null)";
+        try (final var connection = connectionGenerator.getConnection()) {
+            final var preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, position);
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
+            e.printStackTrace();
             throw new RuntimeException("보드 초기화 오류");
         }
     }
