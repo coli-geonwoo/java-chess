@@ -100,10 +100,7 @@ public class BoardDao {
         try (final Connection connection = dbConnector.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query);
              final ResultSet resultSet = preparedStatement.executeQuery()) {
-            if (resultSet.next()) {
-                return resultSet.getInt("CNT") == 0;
-            }
-            return false;
+            return !resultSet.next();
         } catch (final SQLException e) {
             e.printStackTrace();
             throw new RuntimeException("조회 기능 오류");

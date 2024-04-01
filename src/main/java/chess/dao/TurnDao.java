@@ -56,10 +56,7 @@ public class TurnDao {
         try (final Connection connection = dbConnector.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query);
              final ResultSet resultSet = preparedStatement.executeQuery()) {
-            if (resultSet.next()) {
-                return resultSet.getInt("CNT") == 0;
-            }
-            return false;
+            return resultSet.next();
         } catch (final SQLException e) {
             throw new RuntimeException("Turn table 조회 기능 오류");
         }
