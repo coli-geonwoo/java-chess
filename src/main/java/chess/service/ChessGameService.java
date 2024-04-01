@@ -1,44 +1,61 @@
 package chess.service;
 
-import chess.dao.DBServcie;
+import chess.dao.BoardDao;
+import chess.dao.TurnDao;
 import chess.domain.board.ChessBoard;
 import chess.domain.game.ChessGame;
+import chess.domain.piece.Piece;
 import chess.domain.position.Position;
 
 public class ChessGameService {
     // TODO chessGameService에 대한 테스트 작성해보기
-    // TODO boardDao, TurnDao를 가지도록 리팩터링
-    private final DBServcie dbServcie;
+    private final BoardDao boardDao;
+    private final TurnDao turnDao;
     private final ChessGame game;
 
-    private ChessGameService(ChessGame game, DBServcie dbServcie) {
+    public ChessGameService(BoardDao boardDao, TurnDao turnDao, ChessGame game) {
+        this.boardDao = boardDao;
+        this.turnDao = turnDao;
         this.game = game;
-        this.dbServcie = dbServcie;
     }
 
     public static ChessGameService of() {
-        DBServcie gameDao = DBServcie.of();
-        ChessGame game = initializeGame(gameDao);
-        return new ChessGameService(game, gameDao);
+        BoardDao boardDao = BoardDao.of();
+        TurnDao turnDao = TurnDao.of();
+        ChessGame game = loadPreviousGame(boardDao, turnDao);
+        return new ChessGameService(boardDao, turnDao, game);
     }
 
-    private static ChessGame initializeGame(DBServcie dbServcie) {
-        ChessGame previousGame = dbServcie.loadPreviousGame();
-        if (previousGame.isEndGame()) {
-            dbServcie.saveNewGame();
-            return ChessGame.newGame();
+    private static ChessGame loadPreviousGame(BoardDao boardDao, TurnDao turnDao) {
+        return ChessGame.runningGame(boardDao.findBoard(), turnDao.findTurn());
+    }
+
+    public void end() {
+        if (game.isEndGame()) {
+            saveGame(ChessGame.newGame());
         }
-        return previousGame;
+        saveGame(game);
     }
 
     public void playTurn(Position start, Position destination) {
         game.playTurn(start, destination);
-        dbServcie.updateMove(start, destination, game.findPieceByPosition(destination));
-        dbServcie.saveTurn(game);
+        updateMove(start, destination, game.findPieceByPosition(destination));
+        turnDao.saveTurn(game);
     }
 
     public boolean isEndGame() {
         return game.isEndGame();
+    }
+
+    private void saveGame(ChessGame game) {
+        boardDao.resetBoard();
+        boardDao.saveBoard(game.getBoard());
+        turnDao.saveTurn(game);
+    }
+
+    private void updateMove(Position start, Position destination, Piece piece) {
+        boardDao.updatePiecePosition(destination, piece);
+        boardDao.updateEmptyPosition(start);
     }
 
     public ChessBoard gameBoard() {

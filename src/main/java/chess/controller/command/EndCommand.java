@@ -13,6 +13,7 @@ public final class EndCommand implements Command {
 
     @Override
     public void execute(ChessGameService service, OutputView outputView) {
+        service.end();
     }
 
     @Override
