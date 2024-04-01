@@ -1,6 +1,6 @@
 package chess.dao;
 
-import chess.database.ConnectionGenerator;
+import chess.database.DbConnector;
 import chess.domain.game.ChessGame;
 import chess.domain.piece.Team;
 
@@ -11,22 +11,22 @@ import java.sql.SQLException;
 
 public class TurnDao {
 
-    private final ConnectionGenerator connectionGenerator;
+    private final DbConnector dbConnector;
 
-    private TurnDao(ConnectionGenerator connectionGenerator) {
-        this.connectionGenerator = connectionGenerator;
+    private TurnDao(DbConnector dbConnector) {
+        this.dbConnector = dbConnector;
         if (isFirstCall()) {
             initializeTurn();
         }
     }
 
     public static TurnDao of() {
-        return new TurnDao(new ConnectionGenerator());
+        return new TurnDao(new DbConnector());
     }
 
     public void saveTurn(ChessGame game) {
         final var query = "UPDATE turn SET team = ?;";
-        try (final var connection = connectionGenerator.getConnection();
+        try (final var connection = dbConnector.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, TeamMapper.messageOf(game.getTurn()));
             preparedStatement.executeUpdate();
@@ -37,7 +37,7 @@ public class TurnDao {
 
     public Team findTurn() {
         final var query = "SELECT team FROM turn";
-        try (final var connection = connectionGenerator.getConnection();
+        try (final var connection = dbConnector.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             final var resultSet = preparedStatement.executeQuery();
 
@@ -53,7 +53,7 @@ public class TurnDao {
 
     private boolean isFirstCall() {
         final var query = "SELECT COUNT(*) AS CNT FROM turn";
-        try (final Connection connection = connectionGenerator.getConnection();
+        try (final Connection connection = dbConnector.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query);
              final ResultSet resultSet = preparedStatement.executeQuery()) {
             if (resultSet.next()) {
@@ -68,7 +68,7 @@ public class TurnDao {
 
     private void initializeTurn() {
         final var query = "INSERT INTO turn(team) VALUE ('white');";
-        try (final var connection = connectionGenerator.getConnection()) {
+        try (final var connection = dbConnector.getConnection()) {
             final var preparedStatement = connection.prepareStatement(query);
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {

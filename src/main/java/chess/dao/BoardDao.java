@@ -1,6 +1,6 @@
 package chess.dao;
 
-import chess.database.ConnectionGenerator;
+import chess.database.DbConnector;
 import chess.domain.board.ChessBoard;
 import chess.domain.piece.Piece;
 import chess.domain.piece.Team;
@@ -15,17 +15,17 @@ import java.util.Map;
 import java.util.Set;
 
 public class BoardDao {
-    private final ConnectionGenerator connectionGenerator;
+    private final DbConnector dbConnector;
 
-    public BoardDao(ConnectionGenerator connectionGenerator) {
-        this.connectionGenerator = connectionGenerator;
+    public BoardDao(DbConnector dbConnector) {
+        this.dbConnector = dbConnector;
         if (isFirstCall()) {
             initializeBoard();
         }
     }
 
     public static BoardDao of() {
-        return new BoardDao(new ConnectionGenerator());
+        return new BoardDao(new DbConnector());
     }
 
     public void saveBoard(ChessBoard board) {
@@ -37,7 +37,7 @@ public class BoardDao {
 
     public ChessBoard findBoard() {
         final var query = "SELECT * FROM board WHERE distinct_piece = 1";
-        try (final Connection connection = connectionGenerator.getConnection();
+        try (final Connection connection = dbConnector.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query);
              final ResultSet resultSet = preparedStatement.executeQuery()) {
             Map<Position, Piece> board = new HashMap<>();
@@ -54,7 +54,7 @@ public class BoardDao {
 
     public void updatePiecePosition(final Position position, Piece piece) {
         final var query = "UPDATE board SET distinct_piece = 1, piece_type = ? , team = ? WHERE position = ?;";
-        try (final var connection = connectionGenerator.getConnection();
+        try (final var connection = dbConnector.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, PieceMapper.typeMessageOf(piece));
             preparedStatement.setString(2, TeamMapper.messageOf(piece.getTeam()));
@@ -67,7 +67,7 @@ public class BoardDao {
 
     public void updateEmptyPosition(final Position position) {
         final var query = "UPDATE board SET distinct_piece = 0, piece_type = null , team = null WHERE position = ?;";
-        try (final var connection = connectionGenerator.getConnection();
+        try (final var connection = dbConnector.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, Position.toKey(position.getRowPosition(), position.getColumnPosition()));
             preparedStatement.executeUpdate();
@@ -78,7 +78,7 @@ public class BoardDao {
 
     public void resetBoard() {
         final var query = "UPDATE board SET distinct_piece = 0, piece_type =null, team = null;";
-        try (final var connection = connectionGenerator.getConnection();
+        try (final var connection = dbConnector.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
@@ -97,7 +97,7 @@ public class BoardDao {
 
     private boolean isFirstCall() {
         final var query = "SELECT COUNT(*) AS 'CNT' FROM board";
-        try (final Connection connection = connectionGenerator.getConnection();
+        try (final Connection connection = dbConnector.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query);
              final ResultSet resultSet = preparedStatement.executeQuery()) {
             if (resultSet.next()) {
@@ -120,7 +120,7 @@ public class BoardDao {
 
     private void updateOnePosition(String position) {
         final var query = "INSERT INTO board (position, distinct_piece, piece_type, team) VALUE (?, 0, null, null)";
-        try (final var connection = connectionGenerator.getConnection()) {
+        try (final var connection = dbConnector.getConnection()) {
             final var preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, position);
             preparedStatement.executeUpdate();
