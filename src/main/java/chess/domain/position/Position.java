@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 import static java.util.stream.Collectors.toMap;
 
 public class Position {
-    private static final Map<String, Position> POOL = RowPosition.POOL
+    public static final Map<String, Position> POOL = RowPosition.POOL
             .values()
             .stream()
             .flatMap(row -> ColumnPosition.POOL

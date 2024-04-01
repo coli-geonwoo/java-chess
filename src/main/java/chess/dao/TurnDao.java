@@ -4,8 +4,6 @@ import chess.database.ConnectionGenerator;
 import chess.domain.game.ChessGame;
 import chess.domain.piece.Team;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class TurnDao {
@@ -13,6 +11,7 @@ public class TurnDao {
     private final ConnectionGenerator connectionGenerator;
 
     private TurnDao(ConnectionGenerator connectionGenerator) {
+        initializeTurn();
         this.connectionGenerator = connectionGenerator;
     }
 
@@ -44,6 +43,16 @@ public class TurnDao {
             throw new SQLException("턴 테이블에 팀이 없습니다.");
         } catch (final SQLException e) {
             throw new RuntimeException("턴 조회 기능 오류");
+        }
+    }
+
+    private void initializeTurn(){
+        final var query = "INSERT INTO 'turn'(team) VALUE ('white');";
+        try (final var connection = connectionGenerator.getConnection();
+             final var preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.executeUpdate();
+        } catch (final SQLException e) {
+            throw new RuntimeException("턴 초기화 오류");
         }
     }
 }
