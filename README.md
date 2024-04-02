@@ -175,7 +175,8 @@
   - Dbconnector : connection 연결 책임
   - ConnectionPool : connectionPool 구현
 - db
-  - BoardDao : 초기 테이블 insert문 구현
-  - TurnDao : 초기 턴 insert문 구현
+  - BoardDaoImpl : 초기 테이블 insert문 구현
+  - TurnDaoImpl : 초기 턴 insert문 구현
+
 ### test
-- DB
+- FakeBoardDao와 FakeTurnDao를 활용한 ChessGameServiceTest 구현
