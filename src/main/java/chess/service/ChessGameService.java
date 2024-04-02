@@ -1,7 +1,9 @@
 package chess.service;
 
 import chess.dao.BoardDao;
+import chess.dao.BoardDaoImpl;
 import chess.dao.TurnDao;
+import chess.dao.TurnDaoImpl;
 import chess.domain.board.ChessBoard;
 import chess.domain.game.ChessGame;
 import chess.domain.piece.Piece;
@@ -18,9 +20,7 @@ public class ChessGameService {
         this.game = game;
     }
 
-    public static ChessGameService of() {
-        BoardDao boardDao = BoardDao.of();
-        TurnDao turnDao = TurnDao.of();
+    public static ChessGameService of(BoardDao boardDao, TurnDao turnDao) {
         ChessGame game = loadPreviousGame(boardDao, turnDao);
 
         if (game.isEndGame()) {

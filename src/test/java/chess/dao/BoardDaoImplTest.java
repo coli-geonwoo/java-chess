@@ -15,7 +15,7 @@ import java.util.Map;
 import static chess.domain.position.Fixture.D3;
 import static org.assertj.core.api.Assertions.assertThat;
 
-class BoardDaoTest {
+class BoardDaoImplTest {
 
     @DisplayName("저장되어 있는 board를 가져올 수 잇다")
     @Test

@@ -82,7 +82,14 @@
           pawn : 1점 (단, 같은 세로줄에 같은 색 폰이 있는 경우 0.5점)
           ```
 ---
+### 실행 방법
 
+1단계 : `docker-compose -p chess up -d` 를 실행하여 DB를 설정한다
+2단계 : Chessapplication의 메서드를 실행한다
+- board : 체스 게임의 보드 현황 저장
+- turn : 체스 게임의 턴 저장
+
+---
 ## 1-2단계 개선사안
 
 ### 1차 리뷰 개선 사안
@@ -157,4 +164,18 @@
 - DB의 생성 로직 제거 : 단순 접근 책임을 가지도록 리팩터링
 - connetion 관리 객체 분리
 - status 안내 메시지 추가
-- FakeBoardDao 객체를 통한 boardDao 테스트
+- FakeBoardDao 객체를 통한 boardDaoImpl 테스트
+
+### 2차 리뷰 개선사안
+
+#### domain
+- rename : MINUS_SCORE > PAWN_MINUS_SCORE
+- DbService 삭제 : ChessGameService로 책임 이전
+- database 
+  - Dbconnector : connection 연결 책임
+  - ConnectionPool : connectionPool 구현
+- db
+  - BoardDao : 초기 테이블 insert문 구현
+  - TurnDao : 초기 턴 insert문 구현
+### test
+- DB

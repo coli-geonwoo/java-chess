@@ -1,6 +1,8 @@
 package chess.controller;
 
 import chess.controller.command.Command;
+import chess.dao.BoardDaoImpl;
+import chess.dao.TurnDaoImpl;
 import chess.domain.game.ChessGame;
 import chess.service.ChessGameService;
 import chess.view.CommandMapper;
@@ -21,7 +23,7 @@ public class ChessGameController {
 
     public void run() {
         Command command;
-        ChessGameService gameService = ChessGameService.of();
+        ChessGameService gameService = ChessGameService.of(BoardDaoImpl.of(), TurnDaoImpl.of());
         ChessGame game = startChessGame(gameService);
 
         do {
