@@ -9,7 +9,6 @@ import chess.domain.position.Position;
 import java.util.HashMap;
 import java.util.Map;
 
-// TODO 패키지 고민해보기
 public class FakeBoardDao implements BoardDao {
     private ChessBoard board;
 
