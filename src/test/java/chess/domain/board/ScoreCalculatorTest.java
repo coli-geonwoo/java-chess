@@ -60,9 +60,9 @@ class ScoreCalculatorTest {
         Map<Position, Piece> board = new HashMap<>();
         ScoreCalculator calculator = ScoreCalculator.gameScoreCalculator();
 
-        assertThatThrownBy(() -> calculator.calculateTeamScore(board, Team.BLACK))
-                .isInstanceOf(IllegalStateException.class)
-                .hasMessage("팀의 기물이 하나도 없습니다.");
+        Score blackTeamScore = calculator.calculateTeamScore(board, Team.BLACK);
+
+        assertThat(blackTeamScore).isEqualTo(Score.from(0));
     }
 
     /*

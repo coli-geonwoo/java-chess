@@ -29,14 +29,13 @@ public class ScoreCalculator {
         return totalScore.minus(calculateMinusPawnScore(pawnPositions));
     }
 
-    // TODO 하나도 없을 시, 0점 처리?
     private Score calculateTotalTeamScore(Map<Position, Piece> board, Team team) {
         return board.values()
                 .stream()
                 .filter(piece -> piece.isSameTeam(team))
                 .map(Piece::getScore)
                 .reduce(Score::add)
-                .orElseThrow(() -> new IllegalStateException("팀의 기물이 하나도 없습니다."));
+                .orElseGet(() -> ZERO_SCORE);
     }
 
     private List<Position> findTeamPawnPositions(Map<Position, Piece> board, Team team) {
