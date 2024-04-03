@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import static chess.domain.position.Fixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
+// TODO outputView를 활용하지 않고 테스트 구성해보기
+// TODO setup 함수를 통해 초기화해보기
 class ChessGameServiceTest {
 
     @DisplayName("기물 이동을 통해 턴을 진행할 수 있다")
