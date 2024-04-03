@@ -9,6 +9,7 @@ import chess.domain.position.Position;
 import java.util.HashMap;
 import java.util.Map;
 
+// TODO 패키지 고민해보기
 public class FakeBoardDao implements BoardDao {
     private ChessBoard board;
 
@@ -28,9 +29,9 @@ public class FakeBoardDao implements BoardDao {
 
     @Override
     public void updatePiecePosition(Position position, Piece piece) {
-        Map<Position, Piece> piecePositons = board.status();
-        piecePositons.put(position, piece);
-        this.board =  this.board = new ChessBoard(piecePositons, ScoreCalculator.gameScoreCalculator());
+        Map<Position, Piece> piecePositions = board.status();
+        piecePositions.put(position, piece);
+        this.board =  this.board = new ChessBoard(piecePositions, ScoreCalculator.gameScoreCalculator());
     }
 
     @Override
