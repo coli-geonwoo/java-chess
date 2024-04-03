@@ -42,7 +42,7 @@ public class TurnDaoImpl implements TurnDao {
         final var query = "SELECT team FROM turn";
         try (final var connection = connectionPool.getConnection();
              final var preparedStatement = connection.prepareStatement(query);
-            final var resultSet = preparedStatement.executeQuery()){
+             final var resultSet = preparedStatement.executeQuery()) {
             connectionPool.returnConnection(connection);
 
             if (resultSet.next()) {
@@ -51,16 +51,16 @@ public class TurnDaoImpl implements TurnDao {
             }
             throw new SQLException("턴 테이블에 팀이 없습니다.");
         } catch (final SQLException e) {
+            e.printStackTrace();
             throw new RuntimeException("턴 조회 기능 오류");
         }
     }
 
     private boolean isFirstCall() {
-        final var query = "SELECT COUNT(*) AS CNT FROM turn";
-        try {
-            Connection connection = connectionPool.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            ResultSet resultSet = preparedStatement.executeQuery();
+        final var query = "SELECT * FROM turn";
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
             connectionPool.returnConnection(connection);
             return !resultSet.next();
         } catch (final SQLException e) {
@@ -72,7 +72,7 @@ public class TurnDaoImpl implements TurnDao {
     private void initializeTurn() {
         final var query = "INSERT INTO turn(team) VALUE ('white');";
         try (final var connection = connectionPool.getConnection();
-            final var preparedStatement = connection.prepareStatement(query)){
+             final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.executeUpdate();
             connectionPool.returnConnection(connection);
         } catch (final SQLException e) {

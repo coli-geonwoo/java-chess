@@ -106,7 +106,7 @@ public class BoardDaoImpl implements BoardDao {
     }
 
     private boolean isFirstCall() {
-        final var query = "SELECT COUNT(*) AS 'CNT' FROM board";
+        final var query = "SELECT * FROM board";
         try (final Connection connection = connectionPool.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query);
              final ResultSet resultSet = preparedStatement.executeQuery()) {
