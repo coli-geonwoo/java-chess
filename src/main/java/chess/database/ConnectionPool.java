@@ -25,7 +25,6 @@ public class ConnectionPool {
         this.connectionNumber = 0;
     }
 
-    // TODO 최대 10초 정도 1초마다 가져오는 것 시도해보기
     public synchronized Connection getConnection(int tryCnt) throws SQLException {
         if (isAllConnectionUsed()) {
             checkRetryCount(tryCnt);
