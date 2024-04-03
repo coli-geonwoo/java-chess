@@ -1,5 +1,7 @@
 package chess.service;
 
+import chess.dao.fakedao.FakeBoardDao;
+import chess.dao.fakedao.FakeTurnDao;
 import chess.domain.board.ChessBoard;
 import chess.domain.game.ChessGame;
 import chess.domain.piece.NullPiece;

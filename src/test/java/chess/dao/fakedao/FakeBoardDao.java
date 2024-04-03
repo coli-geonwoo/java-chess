@@ -1,4 +1,4 @@
-package chess.service;
+package chess.dao.fakedao;
 
 import chess.dao.BoardDao;
 import chess.domain.board.ChessBoard;
@@ -31,7 +31,7 @@ public class FakeBoardDao implements BoardDao {
     public void updatePiecePosition(Position position, Piece piece) {
         Map<Position, Piece> piecePositions = board.status();
         piecePositions.put(position, piece);
-        this.board =  this.board = new ChessBoard(piecePositions, ScoreCalculator.gameScoreCalculator());
+        this.board = this.board = new ChessBoard(piecePositions, ScoreCalculator.gameScoreCalculator());
     }
 
     @Override

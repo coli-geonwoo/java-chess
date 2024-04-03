@@ -1,6 +1,5 @@
 package chess.controller.command;
 
-import chess.domain.game.ChessGame;
 import chess.domain.position.Position;
 import chess.domain.position.RowPosition;
 import chess.service.ChessGameService;

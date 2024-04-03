@@ -46,7 +46,7 @@ public class ChessGame {
         return !board.isKingAlive(turn);
     }
 
-    public Piece findPieceByPosition(Position position){
+    public Piece findPieceByPosition(Position position) {
         return board.findPieceByPosition(position);
     }
 

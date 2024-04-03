@@ -1,4 +1,4 @@
-package chess.service;
+package chess.dao.fakedao;
 
 import chess.dao.TurnDao;
 import chess.domain.game.ChessGame;

@@ -40,7 +40,7 @@ public class ConnectionPool {
         if (usedConnection == null) {
             throw new NullPointerException("반납한 connection이 null입니다.");
         }
-        if (occupiedPool.remove(usedConnection) == false) {
+        if (!occupiedPool.remove(usedConnection)) {
             throw new IllegalStateException("사용된 커넥션이 풀에 존재하지 않습니다.");
         }
         freePool.push(usedConnection);

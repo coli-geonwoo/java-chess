@@ -5,5 +5,6 @@ import chess.domain.piece.Team;
 
 public interface TurnDao {
     void saveTurn(ChessGame game);
+
     Team findTurn();
 }
