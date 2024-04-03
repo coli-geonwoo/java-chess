@@ -35,7 +35,7 @@ public class ScoreCalculator {
                 .filter(piece -> piece.isSameTeam(team))
                 .map(Piece::getScore)
                 .reduce(Score::add)
-                .orElseGet(() -> ZERO_SCORE);
+                .orElse(ZERO_SCORE);
     }
 
     private List<Position> findTeamPawnPositions(Map<Position, Piece> board, Team team) {
