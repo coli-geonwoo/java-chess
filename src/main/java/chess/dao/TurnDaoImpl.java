@@ -27,7 +27,7 @@ public class TurnDaoImpl implements TurnDao {
     @Override
     public void saveTurn(ChessGame game) {
         final var query = "UPDATE turn SET team = ?;";
-        try (final var connection = connectionPool.getConnection();
+        try (final var connection = connectionPool.getConnection(0);
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, TeamMapper.messageOf(game.getTurn()));
             preparedStatement.executeUpdate();
@@ -40,7 +40,7 @@ public class TurnDaoImpl implements TurnDao {
     @Override
     public Team findTurn() {
         final var query = "SELECT team FROM turn";
-        try (final var connection = connectionPool.getConnection();
+        try (final var connection = connectionPool.getConnection(0);
              final var preparedStatement = connection.prepareStatement(query);
              final var resultSet = preparedStatement.executeQuery()) {
             connectionPool.returnConnection(connection);
@@ -58,7 +58,7 @@ public class TurnDaoImpl implements TurnDao {
 
     private boolean isFirstCall() {
         final var query = "SELECT * FROM turn";
-        try (Connection connection = connectionPool.getConnection();
+        try (Connection connection = connectionPool.getConnection(0);
              PreparedStatement preparedStatement = connection.prepareStatement(query);
              ResultSet resultSet = preparedStatement.executeQuery()) {
             connectionPool.returnConnection(connection);
@@ -71,7 +71,7 @@ public class TurnDaoImpl implements TurnDao {
 
     private void initializeTurn() {
         final var query = "INSERT INTO turn(team) VALUE ('white');";
-        try (final var connection = connectionPool.getConnection();
+        try (final var connection = connectionPool.getConnection(0);
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.executeUpdate();
             connectionPool.returnConnection(connection);

@@ -39,7 +39,7 @@ public class BoardDaoImpl implements BoardDao {
     @Override
     public ChessBoard findBoard() {
         final var query = "SELECT * FROM board WHERE distinct_piece = 1";
-        try (Connection connection = connectionPool.getConnection();
+        try (Connection connection = connectionPool.getConnection(0);
              PreparedStatement preparedStatement = connection.prepareStatement(query);
              ResultSet resultSet = preparedStatement.executeQuery()) {
             Map<Position, Piece> board = new HashMap<>();
@@ -59,7 +59,7 @@ public class BoardDaoImpl implements BoardDao {
     @Override
     public void updatePiecePosition(final Position position, Piece piece) {
         final var query = "UPDATE board SET distinct_piece = 1, piece_type = ? , team = ? WHERE position = ?;";
-        try (Connection connection = connectionPool.getConnection();
+        try (Connection connection = connectionPool.getConnection(0);
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, PieceMapper.typeMessageOf(piece));
             preparedStatement.setString(2, TeamMapper.messageOf(piece.getTeam()));
@@ -74,7 +74,7 @@ public class BoardDaoImpl implements BoardDao {
     @Override
     public void updateEmptyPosition(final Position position) {
         final var query = "UPDATE board SET distinct_piece = 0, piece_type = null , team = null WHERE position = ?;";
-        try (final var connection = connectionPool.getConnection();
+        try (final var connection = connectionPool.getConnection(0);
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, Position.toKey(position.getRowPosition(), position.getColumnPosition()));
             preparedStatement.executeUpdate();
@@ -87,7 +87,7 @@ public class BoardDaoImpl implements BoardDao {
     @Override
     public void resetBoard() {
         final var query = "UPDATE board SET distinct_piece = 0, piece_type =null, team = null;";
-        try (final var connection = connectionPool.getConnection();
+        try (final var connection = connectionPool.getConnection(0);
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.executeUpdate();
             connectionPool.returnConnection(connection);
@@ -107,7 +107,7 @@ public class BoardDaoImpl implements BoardDao {
 
     private boolean isFirstCall() {
         final var query = "SELECT * FROM board";
-        try (final Connection connection = connectionPool.getConnection();
+        try (final Connection connection = connectionPool.getConnection(0);
              final PreparedStatement preparedStatement = connection.prepareStatement(query);
              final ResultSet resultSet = preparedStatement.executeQuery()) {
             connectionPool.returnConnection(connection);
@@ -128,7 +128,7 @@ public class BoardDaoImpl implements BoardDao {
 
     private void updateOnePosition(String position) {
         final var query = "INSERT INTO board (position, distinct_piece, piece_type, team) VALUE (?, 0, null, null)";
-        try (final var connection = connectionPool.getConnection()) {
+        try (final var connection = connectionPool.getConnection(0)) {
             final var preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, position);
             preparedStatement.executeUpdate();

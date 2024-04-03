@@ -6,8 +6,10 @@ import java.sql.Statement;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Stack;
+import java.util.concurrent.TimeUnit;
 
 public class ConnectionPool {
+    private static final int MAX_RETRY_COUNT = 10;
 
     private static final int MAX_POOL_SIZE = 10;
     private static final String SQL_VERIFYCONN = "select 1";
@@ -24,10 +26,13 @@ public class ConnectionPool {
     }
 
     // TODO 최대 10초 정도 1초마다 가져오는 것 시도해보기
-    public Connection getConnection() throws SQLException {
+    public synchronized Connection getConnection(int tryCnt) throws SQLException {
         if (isAllConnectionUsed()) {
-            throw new RuntimeException("커넥션 풀이 모두 차있습니다");
+            checkRetryCount(tryCnt);
+            waitOneSeconds();
+            return getConnection(tryCnt + 1);
         }
+
         Connection connection = getConnectionFromPool();
         if (connection == null) {
             connection = createNewConnectionForPool();
@@ -51,6 +56,20 @@ public class ConnectionPool {
         Connection connection = connector.createNewConnection();
         occupiedPool.add(connection);
         return connection;
+    }
+
+    private void checkRetryCount(int tryCnt) {
+        if (tryCnt == MAX_RETRY_COUNT) {
+            throw new RuntimeException("커넥션 풀이 모두 차있습니다");
+        }
+    }
+
+    private void waitOneSeconds() {
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private Connection getConnectionFromPool() {
