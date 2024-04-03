@@ -25,7 +25,7 @@ public class ConnectionPool {
 
     // TODO 최대 10초 정도 1초마다 가져오는 것 시도해보기
     public Connection getConnection() throws SQLException {
-        if (isFull()) {
+        if (isAllConnectionUsed()) {
             throw new RuntimeException("커넥션 풀이 모두 차있습니다");
         }
         Connection connection = getConnectionFromPool();
@@ -62,8 +62,7 @@ public class ConnectionPool {
         return connection;
     }
 
-    // TODO 커넥션이 모두 사용중이라는 의미 담기
-    private boolean isFull() {
+    private boolean isAllConnectionUsed() {
         return freePool.isEmpty() && connectionNumber >= MAX_POOL_SIZE;
     }
 
